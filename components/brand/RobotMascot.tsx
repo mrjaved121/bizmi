@@ -14,7 +14,7 @@ export function RobotMascot({
       viewBox="0 0 200 220"
       className={cn("w-full h-full", className)}
       role="img"
-      aria-label={`Kidibit robot mascot, ${pose}`}
+      aria-label={`Bizmi robot mascot, ${pose}`}
     >
       {/* antenna */}
       <line

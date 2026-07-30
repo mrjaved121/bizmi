@@ -222,7 +222,7 @@ export const SCHOOL_SERVICES = [
   {
     href: "/schools/book-demo",
     title: "Book a demo",
-    description: "See Kidibit in your classroom",
+    description: "See Bizmi in your classroom",
     color: "pink" as DepartmentColor,
   },
 ];

@@ -22,7 +22,7 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Kidibit — Learn. Build. Create. Innovate.",
+  title: "Bizmi — Learn. Build. Create. Innovate.",
   description:
     "Robotics kits, dev boards, sensors, and digital project packs for Pakistani schools and curious kids at home.",
 };

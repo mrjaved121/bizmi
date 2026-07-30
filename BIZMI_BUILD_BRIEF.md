@@ -1,4 +1,4 @@
-# Kidibit — Full Build Prompt for Next.js
+# Bizmi — Full Build Prompt for Next.js
 
 > **How to use this file:** Paste the contents into Claude Code or Cursor at the start of a new Next.js project. This is a complete build brief — brand, design system, product catalog, database schema, features, and phased roadmap. Everything in one place.
 
@@ -6,7 +6,7 @@
 
 ## 1. Project Overview
 
-**Product:** Kidibit is a gamified robotics, electronics, and STEM e-commerce platform for Pakistani schools and curious kids at home. It sells physical kits, development boards, sensors, and digital programming project packs — plus offers school services (curriculum, teacher training, lab setup) and courses.
+**Product:** Bizmi is a gamified robotics, electronics, and STEM e-commerce platform for Pakistani schools and curious kids at home. It sells physical kits, development boards, sensors, and digital programming project packs — plus offers school services (curriculum, teacher training, lab setup) and courses.
 
 **One-liner:** "Learn. Build. Create. Innovate." — everything a young engineer needs, in one workshop.
 
@@ -35,19 +35,17 @@
 ## 2. Brand & Visual Identity
 
 ### Brand name
-**Kidibit** — always lowercase in prose, styled with multi-color letters in the logo mark.
+**Bizmi** — styled as "Bizmi" in prose, with multi-color letters in the logo mark.
 
 ### Tagline
 "Learn · Build · Create · Innovate"
 
 ### Multi-color letter system (used in logo, footer, key headlines)
-- **K** — Orange `#FF6B35`
+- **B** — Orange `#FF6B35`
 - **i** — Blue `#3B82F6`
-- **d** — Purple `#8B5CF6`
-- **i** — Blue `#3B82F6`
-- **b** — Yellow `#FDB833`
-- **i** — Pink `#EC4899`
-- **t** — Green `#34D399`
+- **z** — Purple `#8B5CF6`
+- **m** — Yellow `#FDB833`
+- **i** — Green `#34D399`
 
 ### Mascot
 A friendly cartoon robot with a screen face, waving hand, antenna with a red bulb, and orange body. Used in hero sections and empty states. Available as SVG components at `/components/brand/RobotMascot.tsx`.
@@ -208,7 +206,7 @@ Custom components at `/components/`:
 - `<DepartmentCard color="orange" title subtitle count />`
 - `<ProductCard product />`
 - `<Eyebrow>01 / Shop</Eyebrow>`
-- `<BrandMark size="sm|md|lg" />` (multi-color Kidibit logo)
+- `<BrandMark size="sm|md|lg" />` (multi-color Bizmi logo)
 - `<Mascot pose="waving|thinking|building" />`
 - `<Marquee items={[]} />`
 
@@ -304,7 +302,7 @@ Custom components at `/components/`:
 
 #### Robotics (department 01, color: orange)
 - **Robotics Kits** — complete beginner-to-advanced kits
-  - Kidibit Robotics & Electronics Kit (ages 6–10) — flagship kit
+  - Bizmi Robotics & Electronics Kit (ages 6–10) — flagship kit
   - Line Follower Bot Kit
   - Bluetooth Rover Kit
   - Obstacle Avoiding Robot Kit
@@ -401,7 +399,7 @@ Downloadable project bundles delivered via signed Supabase Storage URLs.
   - Video walkthroughs
   - Covers HAL, CubeMX, FreeRTOS, low-power modes
 
-- **Kidibit Mega Bundle** — all three packs, PKR 6,599 (30% off individual total)
+- **Bizmi Mega Bundle** — all three packs, PKR 6,599 (30% off individual total)
 
 - **Individual project downloads** — PKR 299–499 each (future: Phase 2)
 
@@ -512,7 +510,7 @@ create table products (
   short_description text, short_description_ur text,
   long_description text, long_description_ur text,
   category_id uuid references categories(id),
-  brand text,                                -- e.g. 'Arduino', 'Raspberry Pi', 'Kidibit'
+  brand text,                                -- e.g. 'Arduino', 'Raspberry Pi', 'Bizmi'
   product_type text check (product_type in ('physical','digital')),
   price_pkr integer,
   compare_at_price_pkr integer,               -- for discounts / strike-through
@@ -577,7 +575,7 @@ create table cart_items (
 
 create table orders (
   id uuid primary key default gen_random_uuid(),
-  order_number text unique,           -- e.g. KB-0000123, human-friendly
+  order_number text unique,           -- e.g. BZ-0000123, human-friendly
   user_id uuid references profiles(id),
   guest_email text,
   guest_phone text,
@@ -793,7 +791,7 @@ create policy "products_public_read" on products for select
 
 ## 8. Feature Details
 
-### 8.1 Home page structure (matches `kidibit-v3.html` mockup)
+### 8.1 Home page structure (matches `bizmi-v3.html` mockup)
 
 Sections top-to-bottom:
 1. **Top announcement bar** — free shipping / COD / phone number
@@ -842,7 +840,7 @@ Layout: 2 columns (60/40) desktop, stacked mobile.
 - Filters sidebar (collapsible on mobile as a Sheet):
   - Category tree
   - Price range slider
-  - Brand (Arduino / Raspberry Pi / STM32 / Kidibit / Other)
+  - Brand (Arduino / Raspberry Pi / STM32 / Bizmi / Other)
   - Age range
   - Difficulty
   - In stock only
@@ -876,7 +874,7 @@ Single-page checkout (Vercel-optimized), or 3 steps: Contact → Shipping → Pa
 - Create order (status: `pending`)
 - Send SMS confirmation to customer
 - Send Slack/email alert to fulfillment team
-- Redirect to `/checkout/success?order=KB-0000123`
+- Redirect to `/checkout/success?order=BZ-0000123`
 
 **For digital-only orders (no physical items):**
 - Skip shipping step
@@ -909,7 +907,7 @@ Schools ordering 10+ units of anything:
 - Opens a modal capturing: school name, contact, quantities, delivery date, PO number if available
 - Creates a `service_inquiries` row + emails sales team
 - Sales team creates a manual `orders` row with `payment_method: 'invoice'`, `is_school_order: true`, `po_number`
-- Kidibit generates a PDF invoice (via `@react-pdf/renderer`), sends to school
+- Bizmi generates a PDF invoice (via `@react-pdf/renderer`), sends to school
 - School pays via bank transfer + shares receipt, or on delivery
 - Digital grants (if any) issued to a school-level account; classroom teachers can access
 
@@ -1032,9 +1030,9 @@ Paste this into Claude Code at the start of a new project:
 
 ---
 
-> Initialize a Next.js 15 (App Router) TypeScript project called **kidibit-web**. This is the codebase for **Kidibit**, a Pakistani robotics/electronics/STEM e-commerce platform selling physical kits, development boards (Arduino, Raspberry Pi, STM32), sensors, and digital programming project packs — with a school services layer on top.
+> Initialize a Next.js 15 (App Router) TypeScript project called **bizmi-web**. This is the codebase for **Bizmi**, a Pakistani robotics/electronics/STEM e-commerce platform selling physical kits, development boards (Arduino, Raspberry Pi, STM32), sensors, and digital programming project packs — with a school services layer on top.
 >
-> **Reference the file `KIDIBIT_BUILD_BRIEF.md` in this repo** (paste this whole document) as the source of truth for design, features, product catalog, and database schema. Don't invent things it doesn't specify — ask if you need clarification.
+> **Reference the file `BIZMI_BUILD_BRIEF.md` in this repo** (paste this whole document) as the source of truth for design, features, product catalog, and database schema. Don't invent things it doesn't specify — ask if you need clarification.
 >
 > **Set up the project with:**
 > - Next.js 15 App Router + TypeScript strict mode
@@ -1076,7 +1074,7 @@ Paste this into Claude Code at the start of a new project:
 > - Locale detection (default 'en')
 > - Role-based redirect for `/admin/*` and `/teacher/*`
 >
-> **First deliverable: the home page**, rebuilt component-by-component to match the mockup in `kidibit-v3.html`. Break it into these components:
+> **First deliverable: the home page**, rebuilt component-by-component to match the mockup in `bizmi-v3.html`. Break it into these components:
 > 1. `<TopBar />` — announcement bar
 > 2. `<Nav />` — sticky glass-blur nav with brand mark
 > 3. `<Hero />` — with `<RobotMascot />` and floating info cards
@@ -1116,16 +1114,16 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=
 SUPABASE_SERVICE_ROLE_KEY=
 
 # Site
-NEXT_PUBLIC_SITE_URL=https://kidibit.pk
-NEXT_PUBLIC_SITE_NAME=Kidibit
+NEXT_PUBLIC_SITE_URL=https://bizmi.pk
+NEXT_PUBLIC_SITE_NAME=Bizmi
 
 # Resend
 RESEND_API_KEY=
-RESEND_FROM_EMAIL=orders@kidibit.pk
+RESEND_FROM_EMAIL=orders@bizmi.pk
 
 # SMS (choose one)
 JAZZ_SMS_API_KEY=
-JAZZ_SMS_SENDER_ID=Kidibit
+JAZZ_SMS_SENDER_ID=Bizmi
 # OR
 TWILIO_ACCOUNT_SID=
 TWILIO_AUTH_TOKEN=
@@ -1140,7 +1138,7 @@ NEXT_PUBLIC_SENTRY_DSN=
 SENTRY_AUTH_TOKEN=
 
 # Admin
-ADMIN_EMAIL_ALLOWLIST=jay@kidibit.pk,friend@kidibit.pk
+ADMIN_EMAIL_ALLOWLIST=jay@bizmi.pk,friend@bizmi.pk
 ```
 
 ---
@@ -1148,13 +1146,13 @@ ADMIN_EMAIL_ALLOWLIST=jay@kidibit.pk,friend@kidibit.pk
 ## 12. Deployment Notes
 
 - **Vercel project:** connect the GitHub repo, set env vars, deploy `main` branch to production, other branches to previews
-- **Custom domain:** `kidibit.pk` — A record + CNAME per Vercel instructions
+- **Custom domain:** `bizmi.pk` — A record + CNAME per Vercel instructions (note: bizmi.pk currently hosts a live WordPress site — decide whether this build replaces it in place with URL redirects, or launches at a staging subdomain first)
 - **Supabase project:** production tier once traffic warrants; free tier is fine for MVP
 - **Storage buckets:** create `products` (public), `digital-source` (private), `digital-watermarked` (private), `certificates` (private)
 - **Database backups:** enable daily backups in Supabase
 - **Rate limiting:** Vercel Edge middleware for auth endpoints
 - **CDN:** Vercel CDN handles most; large digital files served via signed Supabase Storage URLs
-- **Email deliverability:** verify domain in Resend, set up SPF/DKIM/DMARC on `kidibit.pk`
+- **Email deliverability:** verify domain in Resend, set up SPF/DKIM/DMARC on `bizmi.pk`
 
 ---
 
@@ -1173,6 +1171,6 @@ ADMIN_EMAIL_ALLOWLIST=jay@kidibit.pk,friend@kidibit.pk
 
 **End of build brief.**
 
-Save this file as `KIDIBIT_BUILD_BRIEF.md` at the root of your project. Point Claude Code at it whenever architecture decisions come up.
+Save this file as `BIZMI_BUILD_BRIEF.md` at the root of your project. Point Claude Code at it whenever architecture decisions come up.
 
 Any decision not explicitly written here is delegated to the developer — but the direction is always: simpler over cleverer, RSC over client, Supabase-native over custom, warm over cold.

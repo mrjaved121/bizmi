@@ -1,4 +1,13 @@
 import Link from "next/link";
+import {
+  Bot,
+  Cpu,
+  CircuitBoard,
+  Microchip,
+  Gauge,
+  Download,
+  type LucideIcon,
+} from "lucide-react";
 import { ArrowBubble } from "@/components/features/ArrowBubble";
 import { cn } from "@/lib/utils";
 
@@ -12,7 +21,26 @@ const COLOR_STYLES = {
   pink: "bg-pink-soft",
 } as const;
 
+const COLOR_TO_ICON_TEXT = {
+  orange: "text-orange",
+  blue: "text-blue",
+  red: "text-red",
+  purple: "text-purple",
+  green: "text-green",
+  yellow: "text-yellow",
+  pink: "text-pink",
+} as const;
+
 export type DepartmentColor = keyof typeof COLOR_STYLES;
+
+const TITLE_ICON: Record<string, LucideIcon> = {
+  "Robotics kits": Bot,
+  Arduino: Cpu,
+  "Raspberry Pi": CircuitBoard,
+  STM32: Microchip,
+  "Sensors & shields": Gauge,
+  "Digital projects": Download,
+};
 
 export function DepartmentCard({
   href,
@@ -29,15 +57,26 @@ export function DepartmentCard({
   count?: number;
   className?: string;
 }) {
+  const Icon = TITLE_ICON[title] ?? Bot;
+
   return (
     <Link
       href={href}
       className={cn(
-        "group relative flex h-full min-h-56 flex-col justify-between overflow-hidden rounded-[32px] p-7 transition-transform duration-300 hover:-translate-y-1",
+        "group relative flex h-full min-h-56 flex-col justify-between overflow-hidden rounded-[32px] p-7 transition-transform duration-300 hover:-translate-y-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange focus-visible:ring-offset-2",
         COLOR_STYLES[color],
         className
       )}
     >
+      <Icon
+        className={cn(
+          "pointer-events-none absolute -right-4 -bottom-4 h-28 w-28 opacity-[0.14] transition-transform duration-300 group-hover:scale-110 group-hover:rotate-6",
+          COLOR_TO_ICON_TEXT[color]
+        )}
+        strokeWidth={1.25}
+        aria-hidden
+      />
+
       <div className="flex items-start justify-between">
         {typeof count === "number" && (
           <span className="font-mono text-xs uppercase tracking-wide text-ink-2">

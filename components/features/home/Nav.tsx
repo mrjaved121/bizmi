@@ -20,7 +20,7 @@ export function Nav() {
   return (
     <header className="sticky top-0 z-50 border-b border-line bg-bg/80 backdrop-blur-md">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
-        <Link href="/" aria-label="Kidibit home">
+        <Link href="/" aria-label="Bizmi home">
           <BrandMark size="md" />
         </Link>
 

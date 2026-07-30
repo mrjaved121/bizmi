@@ -1,13 +1,11 @@
 import { cn } from "@/lib/utils";
 
 const LETTERS: { char: string; color: string }[] = [
-  { char: "k", color: "var(--orange)" },
+  { char: "B", color: "var(--orange)" },
   { char: "i", color: "var(--blue)" },
-  { char: "d", color: "var(--purple)" },
-  { char: "i", color: "var(--blue)" },
-  { char: "b", color: "var(--yellow)" },
-  { char: "i", color: "var(--pink)" },
-  { char: "t", color: "var(--green)" },
+  { char: "z", color: "var(--purple)" },
+  { char: "m", color: "var(--yellow)" },
+  { char: "i", color: "var(--green)" },
 ];
 
 const SIZES = {
@@ -30,7 +28,7 @@ export function BrandMark({
         SIZES[size],
         className
       )}
-      aria-label="kidibit"
+      aria-label="Bizmi"
     >
       {LETTERS.map((letter, i) => (
         <span key={i} style={{ color: letter.color }}>

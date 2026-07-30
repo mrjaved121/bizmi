@@ -42,7 +42,7 @@ export function Footer() {
             <ul className="mt-4 flex flex-col gap-2.5 text-sm text-white/70">
               <li>Faisalabad, Punjab, Pakistan</li>
               <li>+92 300 1234567</li>
-              <li>hello@kidibit.pk</li>
+              <li>hello@bizmi.pk</li>
             </ul>
           </div>
         </div>
@@ -56,7 +56,7 @@ export function Footer() {
 
       <div className="border-t border-white/10 px-6 py-6">
         <p className="mx-auto max-w-7xl text-center font-mono text-xs uppercase tracking-wide text-white/40">
-          © {new Date().getFullYear()} Kidibit. All rights reserved.
+          © {new Date().getFullYear()} Bizmi. All rights reserved.
         </p>
       </div>
     </footer>
