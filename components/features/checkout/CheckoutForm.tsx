@@ -28,7 +28,7 @@ import { cn } from "@/lib/utils";
 const schema = z.object({
   fullName: z.string().min(2, "Enter your full name"),
   phone: z.string().min(7, "Enter a valid phone number"),
-  email: z.union([z.string().email("Enter a valid email address"), z.literal("")]).optional(),
+  email: z.string().email("Enter a valid email address"),
   province: z.string().min(2, "Select a province"),
   city: z.string().min(2, "Enter your city"),
   address: z.string().min(5, "Enter your full address"),
@@ -149,9 +149,13 @@ export function CheckoutForm() {
                   {errors.phone && <p className="mt-1 text-xs text-red">{errors.phone.message}</p>}
                 </div>
                 <div>
-                  <Label htmlFor="email">Email (optional)</Label>
+                  <Label htmlFor="email">Email</Label>
                   <Input id="email" type="email" className="mt-1.5" {...register("email")} />
-                  {errors.email && <p className="mt-1 text-xs text-red">{errors.email.message}</p>}
+                  {errors.email ? (
+                    <p className="mt-1 text-xs text-red">{errors.email.message}</p>
+                  ) : (
+                    <p className="mt-1 text-xs text-ink-2">We&apos;ll send your order confirmation here.</p>
+                  )}
                 </div>
               </div>
             </>

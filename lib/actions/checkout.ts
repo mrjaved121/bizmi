@@ -4,11 +4,12 @@ import { randomUUID } from "node:crypto";
 import { z } from "zod";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { calculateDeliveryFee } from "@/lib/shipping";
+import { sendOrderConfirmationEmail } from "@/lib/email/send-order-confirmation";
 
 const checkoutSchema = z.object({
   fullName: z.string().min(2, "Enter your full name"),
   phone: z.string().min(7, "Enter a valid phone number"),
-  email: z.union([z.string().email(), z.literal("")]).optional(),
+  email: z.string().email(),
   province: z.string().min(2, "Select a province"),
   city: z.string().min(2, "Enter your city"),
   address: z.string().min(5, "Enter your full address"),
@@ -74,7 +75,7 @@ export async function createOrder(input: CheckoutInput): Promise<CheckoutResult>
     .insert({
       id: orderId,
       order_number: orderNumber,
-      guest_email: data.email || null,
+      guest_email: data.email,
       guest_phone: data.phone,
       status: "pending",
       payment_method: data.paymentMethod,
@@ -126,8 +127,26 @@ export async function createOrder(input: CheckoutInput): Promise<CheckoutResult>
       .eq("id", product.id);
   }
 
-  // TODO(Resend): send order confirmation SMS + email, and a fulfillment
-  // team alert, once RESEND_API_KEY / SMS provider are configured.
+  // TODO(SMS): send order confirmation SMS + a fulfillment team alert,
+  // once an SMS provider is configured.
+
+  await sendOrderConfirmationEmail({
+    to: data.email,
+    orderNumber,
+    guestAccessToken: orderRow.guest_access_token,
+    customerName: data.fullName,
+    items: orderItems.map((item) => ({
+      name: item.product_name_snapshot ?? "Item",
+      quantity: item.quantity,
+      lineTotalPkr: item.line_total_pkr,
+    })),
+    subtotalPkr,
+    deliveryFeePkr,
+    totalPkr,
+    paymentMethod: data.paymentMethod,
+    shippingCity: data.city,
+    shippingProvince: data.province,
+  });
 
   return { ok: true, orderNumber, guestAccessToken: orderRow.guest_access_token };
 }
