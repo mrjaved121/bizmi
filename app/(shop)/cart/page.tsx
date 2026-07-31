@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { Minus, Plus, X, ShoppingCart, Truck, ShieldCheck, Wallet } from "lucide-react";
-import { useCart, cartCount, cartSubtotalPkr } from "@/lib/cart";
+import { useCart, cartCount, cartSubtotalPkr, cartItemHref } from "@/lib/cart";
 import { formatPkr } from "@/lib/format";
 import { BrandIcon, COLOR_TO_SOFT_BG, COLOR_TO_ICON_TEXT } from "@/lib/product-visuals";
 import { Button } from "@/components/ui/button";
@@ -50,7 +50,7 @@ export default function CartPage() {
             {items.map((item) => (
               <li key={item.slug} className="flex gap-4 p-5">
                 <Link
-                  href={`/shop/${item.categoryHref}/${item.slug}`}
+                  href={cartItemHref(item)}
                   className={cn(
                     "flex h-24 w-24 shrink-0 items-center justify-center rounded-2xl",
                     COLOR_TO_SOFT_BG[item.color] ?? "bg-surface-2"
@@ -67,7 +67,7 @@ export default function CartPage() {
                   <div className="flex items-start justify-between gap-3">
                     <div>
                       <Link
-                        href={`/shop/${item.categoryHref}/${item.slug}`}
+                        href={cartItemHref(item)}
                         className="font-serif text-lg text-ink hover:underline"
                       >
                         {item.name}

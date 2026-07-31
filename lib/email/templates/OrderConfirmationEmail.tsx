@@ -25,6 +25,7 @@ export interface OrderConfirmationEmailProps {
   paymentMethod: "cod" | "bank_transfer";
   shippingCity: string;
   shippingProvince: string;
+  hasDigitalItems?: boolean;
 }
 
 const BRAND_ORANGE = "#FF6B35";
@@ -44,6 +45,7 @@ export function OrderConfirmationEmail({
   paymentMethod,
   shippingCity,
   shippingProvince,
+  hasDigitalItems,
 }: OrderConfirmationEmailProps) {
   return (
     <Html>
@@ -57,9 +59,11 @@ export function OrderConfirmationEmail({
             Thanks, {customerName.split(" ")[0]} — order {orderNumber} is in.
           </Heading>
           <Text style={{ fontSize: 14, color: INK_2, marginTop: 0 }}>
-            {paymentMethod === "bank_transfer"
-              ? "Share your payment receipt on WhatsApp and we'll confirm shortly."
-              : "We'll call to confirm before dispatch."}
+            {hasDigitalItems
+              ? "Your downloads are ready — click below to get them."
+              : paymentMethod === "bank_transfer"
+                ? "Share your payment receipt on WhatsApp and we'll confirm shortly."
+                : "We'll call to confirm before dispatch."}
           </Text>
 
           <Section style={{ marginTop: 24 }}>
@@ -129,7 +133,7 @@ export function OrderConfirmationEmail({
                 display: "inline-block",
               }}
             >
-              View order details
+              {hasDigitalItems ? "Get your downloads" : "View order details"}
             </Link>
           </Section>
 

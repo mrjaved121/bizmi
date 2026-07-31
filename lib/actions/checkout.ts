@@ -46,7 +46,7 @@ export async function createOrder(input: CheckoutInput): Promise<CheckoutResult>
   const slugs = data.items.map((i) => i.slug);
   const { data: products, error: productsError } = await supabase
     .from("products")
-    .select("id, slug, name, price_pkr, inventory_count, is_active")
+    .select("id, slug, name, price_pkr, inventory_count, is_active, product_type")
     .in("slug", slugs);
 
   if (productsError || !products) {
@@ -61,7 +61,7 @@ export async function createOrder(input: CheckoutInput): Promise<CheckoutResult>
     if (!product || !product.is_active) {
       return { ok: false, error: `One of your items is no longer available. Please review your cart.` };
     }
-    if (product.inventory_count < item.quantity) {
+    if (product.product_type === "physical" && product.inventory_count < item.quantity) {
       return { ok: false, error: `${product.name} — only ${product.inventory_count} left in stock. Please update your cart.` };
     }
   }
@@ -70,7 +70,8 @@ export async function createOrder(input: CheckoutInput): Promise<CheckoutResult>
     const product = bySlug.get(item.slug)!;
     return sum + (product.price_pkr ?? 0) * item.quantity;
   }, 0);
-  const deliveryFeePkr = calculateDeliveryFee(subtotalPkr);
+  const hasPhysicalItems = data.items.some((item) => bySlug.get(item.slug)!.product_type === "physical");
+  const deliveryFeePkr = hasPhysicalItems ? calculateDeliveryFee(subtotalPkr) : 0;
   const totalPkr = subtotalPkr + deliveryFeePkr;
 
   const orderId = randomUUID();
@@ -109,7 +110,7 @@ export async function createOrder(input: CheckoutInput): Promise<CheckoutResult>
     return {
       order_id: orderId,
       product_id: product.id,
-      product_type: "physical",
+      product_type: product.product_type ?? "physical",
       product_name_snapshot: product.name,
       quantity: item.quantity,
       unit_price_pkr: product.price_pkr,
@@ -128,10 +129,34 @@ export async function createOrder(input: CheckoutInput): Promise<CheckoutResult>
   // acceptable at this volume, worth revisiting with an RPC before launch)
   for (const item of data.items) {
     const product = bySlug.get(item.slug)!;
+    if (product.product_type !== "physical") continue;
     await supabase
       .from("products")
       .update({ inventory_count: product.inventory_count - item.quantity })
       .eq("id", product.id);
+  }
+
+  // signed-in buyers get permanent access to their digital purchases via
+  // /account/downloads — guest buyers still get delivery through the
+  // guest_access_token-gated success page and email, so no grant is needed
+  if (user) {
+    const digitalProductIds = data.items
+      .map((item) => bySlug.get(item.slug)!)
+      .filter((p) => p.product_type === "digital")
+      .map((p) => p.id);
+
+    if (digitalProductIds.length > 0) {
+      await supabase
+        .from("digital_grants")
+        .upsert(
+          digitalProductIds.map((productId) => ({
+            user_id: user.id,
+            product_id: productId,
+            order_id: orderId,
+          })),
+          { onConflict: "user_id,product_id" }
+        );
+    }
   }
 
   // TODO(SMS): send order confirmation SMS + a fulfillment team alert,
@@ -153,6 +178,7 @@ export async function createOrder(input: CheckoutInput): Promise<CheckoutResult>
     paymentMethod: data.paymentMethod,
     shippingCity: data.city,
     shippingProvince: data.province,
+    hasDigitalItems: orderItems.some((item) => item.product_type === "digital"),
   });
 
   return { ok: true, orderNumber, guestAccessToken: orderRow.guest_access_token };

@@ -12,6 +12,11 @@ export interface CartItem {
   compareAtPricePkr?: number;
   quantity: number;
   maxQuantity?: number;
+  productType?: "physical" | "digital";
+}
+
+export function cartItemHref(item: Pick<CartItem, "slug" | "categoryHref" | "productType">): string {
+  return item.productType === "digital" ? `/digital/${item.slug}` : `/shop/${item.categoryHref}/${item.slug}`;
 }
 
 interface CartState {

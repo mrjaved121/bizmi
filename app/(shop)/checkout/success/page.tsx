@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { CheckCircle2, PhoneCall, Truck, PackageCheck } from "lucide-react";
+import { CheckCircle2, PhoneCall, Truck, PackageCheck, Download } from "lucide-react";
 import { getOrderByNumberAndToken } from "@/lib/data/orders";
+import { getOrderDownloads } from "@/lib/digital-delivery";
 import { RobotMascot } from "@/components/brand/RobotMascot";
 import { Button } from "@/components/ui/button";
 import { formatPkr } from "@/lib/format";
@@ -29,6 +30,8 @@ export default async function CheckoutSuccessPage({
     notFound();
   }
 
+  const downloads = await getOrderDownloads(order.id);
+
   return (
     <section className="py-16 sm:py-24">
       <div className="mx-auto max-w-2xl px-6">
@@ -41,9 +44,11 @@ export default async function CheckoutSuccessPage({
             Thanks — order {order.orderNumber} is in.
           </h1>
           <p className="mt-2 text-ink-2">
-            {order.paymentMethod === "bank_transfer"
-              ? "Share your payment receipt on WhatsApp and we'll confirm shortly."
-              : "We'll call to confirm before dispatch."}
+            {downloads.length > 0
+              ? "Your downloads are ready below."
+              : order.paymentMethod === "bank_transfer"
+                ? "Share your payment receipt on WhatsApp and we'll confirm shortly."
+                : "We'll call to confirm before dispatch."}
           </p>
         </div>
 
@@ -73,33 +78,65 @@ export default async function CheckoutSuccessPage({
             <span className="font-serif text-lg text-ink">Total</span>
             <span className="font-mono text-xl text-ink">{formatPkr(order.totalPkr)}</span>
           </div>
-          {order.shippingCity && (
+          {order.shippingCity && downloads.length < order.items.length && (
             <p className="mt-4 text-sm text-ink-2">
               Shipping to {order.shippingName} — {order.shippingCity}, {order.shippingProvince}
             </p>
           )}
         </div>
 
-        <div className="mt-10">
-          <h2 className="font-serif text-lg text-ink">What happens next</h2>
-          <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-3">
-            <div className="rounded-2xl border border-line bg-white p-4">
-              <CheckCircle2 className="h-5 w-5 text-green" />
-              <p className="mt-2 font-serif text-sm text-ink">Now</p>
-              <p className="text-xs text-ink-2">We received your order</p>
-            </div>
-            <div className="rounded-2xl border border-line bg-white p-4">
-              <PhoneCall className="h-5 w-5 text-orange" />
-              <p className="mt-2 font-serif text-sm text-ink">Soon</p>
-              <p className="text-xs text-ink-2">We&apos;ll call to confirm</p>
-            </div>
-            <div className="rounded-2xl border border-line bg-white p-4">
-              <Truck className="h-5 w-5 text-ink-2" />
-              <p className="mt-2 font-serif text-sm text-ink">24–48h</p>
-              <p className="text-xs text-ink-2">Ships via courier</p>
+        {downloads.length > 0 && (
+          <div className="mt-10 rounded-3xl border border-line bg-white p-6">
+            <h2 className="font-serif text-lg text-ink">Your downloads</h2>
+            <p className="mt-1 text-xs text-ink-2">Links expire in 24 hours — bookmark this page to come back.</p>
+            <ul className="mt-4 flex flex-col divide-y divide-line">
+              {downloads.map((product) => (
+                <li key={product.productId} className="py-3">
+                  <p className="text-sm font-medium text-ink">{product.productName}</p>
+                  <div className="mt-2 flex flex-wrap gap-2">
+                    {product.files.length === 0 ? (
+                      <span className="text-xs text-ink-2">Files being prepared — check your email shortly.</span>
+                    ) : (
+                      product.files.map((file) => (
+                        <a
+                          key={file.url}
+                          href={file.url}
+                          className="inline-flex items-center gap-1.5 rounded-full bg-orange-soft px-3 py-1.5 text-xs text-orange hover:bg-orange hover:text-white"
+                        >
+                          <Download className="h-3 w-3" />
+                          {file.fileName}
+                        </a>
+                      ))
+                    )}
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+
+        {downloads.length < order.items.length && (
+          <div className="mt-10">
+            <h2 className="font-serif text-lg text-ink">What happens next</h2>
+            <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-3">
+              <div className="rounded-2xl border border-line bg-white p-4">
+                <CheckCircle2 className="h-5 w-5 text-green" />
+                <p className="mt-2 font-serif text-sm text-ink">Now</p>
+                <p className="text-xs text-ink-2">We received your order</p>
+              </div>
+              <div className="rounded-2xl border border-line bg-white p-4">
+                <PhoneCall className="h-5 w-5 text-orange" />
+                <p className="mt-2 font-serif text-sm text-ink">Soon</p>
+                <p className="text-xs text-ink-2">We&apos;ll call to confirm</p>
+              </div>
+              <div className="rounded-2xl border border-line bg-white p-4">
+                <Truck className="h-5 w-5 text-ink-2" />
+                <p className="mt-2 font-serif text-sm text-ink">24–48h</p>
+                <p className="text-xs text-ink-2">Ships via courier</p>
+              </div>
             </div>
           </div>
-        </div>
+        )}
 
         <div className="mt-10 flex flex-wrap justify-center gap-4">
           <Button

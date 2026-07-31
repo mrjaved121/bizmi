@@ -1,6 +1,7 @@
 import { createAdminClient } from "@/lib/supabase/admin";
 
 export interface OrderConfirmation {
+  id: string;
   orderNumber: string;
   status: string;
   paymentMethod: string | null;
@@ -47,6 +48,7 @@ export async function getOrderByNumberAndToken(
   }
 
   return {
+    id: order.id,
     orderNumber: order.order_number,
     status: order.status,
     paymentMethod: order.payment_method,

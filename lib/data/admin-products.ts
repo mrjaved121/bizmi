@@ -9,13 +9,14 @@ export interface AdminProductSummary {
   pricePkr: number;
   inventoryCount: number;
   isActive: boolean;
+  productType: string;
 }
 
 export async function getAdminProducts(): Promise<AdminProductSummary[]> {
   const supabase = await createClient();
   const { data, error } = await supabase
     .from("products")
-    .select("id, slug, sku, name, price_pkr, inventory_count, is_active, categories(name)")
+    .select("id, slug, sku, name, price_pkr, inventory_count, is_active, product_type, categories(name)")
     .order("name");
 
   if (error || !data) return [];
@@ -29,6 +30,7 @@ export async function getAdminProducts(): Promise<AdminProductSummary[]> {
     pricePkr: p.price_pkr ?? 0,
     inventoryCount: p.inventory_count ?? 0,
     isActive: p.is_active ?? false,
+    productType: p.product_type ?? "physical",
   }));
 }
 
@@ -48,6 +50,7 @@ export interface AdminProductDetail {
   isBestseller: boolean;
   isNew: boolean;
   isActive: boolean;
+  productType: string;
 }
 
 export async function getAdminProductDetail(id: string): Promise<AdminProductDetail | null> {
@@ -55,7 +58,7 @@ export async function getAdminProductDetail(id: string): Promise<AdminProductDet
   const { data, error } = await supabase
     .from("products")
     .select(
-      "id, slug, sku, name, short_description, category_id, brand, price_pkr, compare_at_price_pkr, inventory_count, difficulty, featured, is_bestseller, is_new, is_active"
+      "id, slug, sku, name, short_description, category_id, brand, price_pkr, compare_at_price_pkr, inventory_count, difficulty, featured, is_bestseller, is_new, is_active, product_type"
     )
     .eq("id", id)
     .single();
@@ -78,6 +81,7 @@ export async function getAdminProductDetail(id: string): Promise<AdminProductDet
     isBestseller: data.is_bestseller ?? false,
     isNew: data.is_new ?? false,
     isActive: data.is_active ?? true,
+    productType: data.product_type ?? "physical",
   };
 }
 

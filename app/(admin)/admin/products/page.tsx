@@ -33,6 +33,7 @@ export default async function AdminProductsPage() {
           <thead>
             <tr className="border-b border-line text-left text-xs uppercase tracking-wide text-ink-2">
               <th className="px-5 py-3 font-normal">Product</th>
+              <th className="px-5 py-3 font-normal">Type</th>
               <th className="px-5 py-3 font-normal">Category</th>
               <th className="px-5 py-3 font-normal">SKU</th>
               <th className="px-5 py-3 text-right font-normal">Price</th>
@@ -43,7 +44,7 @@ export default async function AdminProductsPage() {
           <tbody className="divide-y divide-line">
             {products.length === 0 && (
               <tr>
-                <td colSpan={6} className="px-5 py-10 text-center text-ink-2">
+                <td colSpan={7} className="px-5 py-10 text-center text-ink-2">
                   No products yet.
                 </td>
               </tr>
@@ -55,16 +56,26 @@ export default async function AdminProductsPage() {
                     {product.name}
                   </Link>
                 </td>
+                <td className="px-5 py-3">
+                  <span
+                    className={cn(
+                      "rounded-full px-2.5 py-0.5 font-mono text-xs uppercase tracking-wide",
+                      product.productType === "digital" ? "bg-yellow-soft text-yellow" : "bg-blue-soft text-blue"
+                    )}
+                  >
+                    {product.productType}
+                  </span>
+                </td>
                 <td className="px-5 py-3 text-ink-2">{product.categoryName ?? "—"}</td>
                 <td className="px-5 py-3 font-mono text-xs text-ink-2">{product.sku ?? "—"}</td>
                 <td className="px-5 py-3 text-right font-mono text-ink">{formatPkr(product.pricePkr)}</td>
                 <td
                   className={cn(
                     "px-5 py-3 text-right font-mono",
-                    product.inventoryCount <= 5 ? "text-red" : "text-ink"
+                    product.productType === "physical" && product.inventoryCount <= 5 ? "text-red" : "text-ink"
                   )}
                 >
-                  {product.inventoryCount}
+                  {product.productType === "digital" ? "—" : product.inventoryCount}
                 </td>
                 <td className="px-5 py-3">
                   <span

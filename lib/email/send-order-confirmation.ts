@@ -13,6 +13,7 @@ export interface OrderConfirmationEmailInput {
   paymentMethod: "cod" | "bank_transfer";
   shippingCity: string;
   shippingProvince: string;
+  hasDigitalItems?: boolean;
 }
 
 export async function sendOrderConfirmationEmail(input: OrderConfirmationEmailInput) {
@@ -43,6 +44,7 @@ export async function sendOrderConfirmationEmail(input: OrderConfirmationEmailIn
         paymentMethod: input.paymentMethod,
         shippingCity: input.shippingCity,
         shippingProvince: input.shippingProvince,
+        hasDigitalItems: input.hasDigitalItems ?? false,
       }),
     });
     if (error) {

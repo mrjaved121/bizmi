@@ -3,7 +3,9 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
 import { getAdminProductDetail, getAdminCategoryOptions } from "@/lib/data/admin-products";
+import { getDigitalFilesForProduct } from "@/lib/data/admin-digital";
 import { ProductForm } from "@/components/features/admin/ProductForm";
+import { DigitalFilesManager } from "@/components/features/admin/DigitalFilesManager";
 
 export const metadata: Metadata = {
   title: "Edit product | Bizmi Admin",
@@ -22,6 +24,9 @@ export default async function EditProductPage({
     notFound();
   }
 
+  const isDigital = product.productType === "digital";
+  const digitalFiles = isDigital ? await getDigitalFilesForProduct(id) : [];
+
   return (
     <div>
       <Link href="/admin/products" className="inline-flex items-center gap-1.5 text-sm text-ink-2 hover:text-ink">
@@ -30,27 +35,32 @@ export default async function EditProductPage({
       </Link>
       <h1 className="mt-4 font-serif text-3xl text-ink">{product.name}</h1>
 
-      <div className="mt-6 max-w-2xl rounded-3xl border border-line bg-white p-6 sm:p-8">
-        <ProductForm
-          productId={product.id}
-          categories={categories}
-          defaultValues={{
-            name: product.name,
-            slug: product.slug,
-            sku: product.sku ?? "",
-            categoryId: product.categoryId ?? "",
-            brand: product.brand ?? "",
-            shortDescription: product.shortDescription ?? "",
-            pricePkr: product.pricePkr,
-            compareAtPricePkr: product.compareAtPricePkr ?? undefined,
-            inventoryCount: product.inventoryCount,
-            difficulty: product.difficulty ?? "",
-            featured: product.featured,
-            isBestseller: product.isBestseller,
-            isNew: product.isNew,
-            isActive: product.isActive,
-          }}
-        />
+      <div className="mt-6 flex max-w-2xl flex-col gap-6">
+        <div className="rounded-3xl border border-line bg-white p-6 sm:p-8">
+          <ProductForm
+            productId={product.id}
+            categories={categories}
+            defaultValues={{
+              productType: product.productType === "digital" ? "digital" : "physical",
+              name: product.name,
+              slug: product.slug,
+              sku: product.sku ?? "",
+              categoryId: product.categoryId ?? "",
+              brand: product.brand ?? "",
+              shortDescription: product.shortDescription ?? "",
+              pricePkr: product.pricePkr,
+              compareAtPricePkr: product.compareAtPricePkr ?? undefined,
+              inventoryCount: product.inventoryCount,
+              difficulty: product.difficulty ?? "",
+              featured: product.featured,
+              isBestseller: product.isBestseller,
+              isNew: product.isNew,
+              isActive: product.isActive,
+            }}
+          />
+        </div>
+
+        {isDigital && <DigitalFilesManager productId={product.id} files={digitalFiles} />}
       </div>
     </div>
   );

@@ -9,7 +9,12 @@ import { requireStaff, ForbiddenError } from "@/lib/auth/require-staff";
 const DIFFICULTIES = ["beginner", "intermediate", "advanced"] as const;
 type Difficulty = (typeof DIFFICULTIES)[number];
 
-const schema = z.object({
+// Digital products don't track physical stock — this sentinel keeps the
+// existing "in stock" checks in checkout/cart harmless for them without
+// needing a separate code path there.
+const DIGITAL_INVENTORY_SENTINEL = 999_999;
+
+const baseSchema = z.object({
   name: z.string().min(2, "Enter a product name"),
   slug: z
     .string()
@@ -29,10 +34,16 @@ const schema = z.object({
   isActive: z.boolean(),
 });
 
-export type AdminProductInput = z.infer<typeof schema>;
+const createSchema = baseSchema.extend({
+  productType: z.enum(["physical", "digital"]),
+});
+
+export type AdminProductInput = z.infer<typeof baseSchema>;
+export type AdminCreateProductInput = z.infer<typeof createSchema>;
 export type ActionResult = { ok: true } | { ok: false; error: string };
 
-function toRow(data: AdminProductInput) {
+function toRow(data: AdminProductInput, productType: "physical" | "digital") {
+  const isDigital = productType === "digital";
   return {
     name: data.name,
     slug: data.slug,
@@ -42,8 +53,12 @@ function toRow(data: AdminProductInput) {
     short_description: data.shortDescription || null,
     price_pkr: data.pricePkr,
     compare_at_price_pkr: data.compareAtPricePkr || null,
-    inventory_count: data.inventoryCount,
-    difficulty: DIFFICULTIES.includes(data.difficulty as Difficulty) ? (data.difficulty as Difficulty) : null,
+    inventory_count: isDigital ? DIGITAL_INVENTORY_SENTINEL : data.inventoryCount,
+    difficulty: isDigital
+      ? null
+      : DIFFICULTIES.includes(data.difficulty as Difficulty)
+        ? (data.difficulty as Difficulty)
+        : null,
     featured: data.featured,
     is_bestseller: data.isBestseller,
     is_new: data.isNew,
@@ -51,7 +66,7 @@ function toRow(data: AdminProductInput) {
   };
 }
 
-export async function createProduct(input: AdminProductInput): Promise<ActionResult> {
+export async function createProduct(input: AdminCreateProductInput): Promise<ActionResult> {
   try {
     await requireStaff();
   } catch (err) {
@@ -59,7 +74,7 @@ export async function createProduct(input: AdminProductInput): Promise<ActionRes
     throw err;
   }
 
-  const parsed = schema.safeParse(input);
+  const parsed = createSchema.safeParse(input);
   if (!parsed.success) {
     return { ok: false, error: parsed.error.issues[0]?.message ?? "Please check the form and try again." };
   }
@@ -67,7 +82,7 @@ export async function createProduct(input: AdminProductInput): Promise<ActionRes
   const supabase = await createClient();
   const { data: row, error } = await supabase
     .from("products")
-    .insert({ ...toRow(parsed.data), product_type: "physical" })
+    .insert({ ...toRow(parsed.data, parsed.data.productType), product_type: parsed.data.productType })
     .select("id")
     .single();
 
@@ -90,13 +105,18 @@ export async function updateProduct(id: string, input: AdminProductInput): Promi
     throw err;
   }
 
-  const parsed = schema.safeParse(input);
+  const parsed = baseSchema.safeParse(input);
   if (!parsed.success) {
     return { ok: false, error: parsed.error.issues[0]?.message ?? "Please check the form and try again." };
   }
 
   const supabase = await createClient();
-  const { error } = await supabase.from("products").update(toRow(parsed.data)).eq("id", id);
+
+  // product_type is fixed at creation — read it rather than trust the form
+  const { data: existing } = await supabase.from("products").select("product_type").eq("id", id).single();
+  const productType = existing?.product_type === "digital" ? "digital" : "physical";
+
+  const { error } = await supabase.from("products").update(toRow(parsed.data, productType)).eq("id", id);
 
   if (error) {
     if (error.message.includes("duplicate key")) {

@@ -25,6 +25,7 @@ export function ProductActions({ product }: { product: ProductDetailData }) {
         pricePkr: product.pricePkr,
         compareAtPricePkr: product.compareAtPricePkr,
         maxQuantity: product.inventoryCount,
+        productType: "physical",
       },
       quantity
     );

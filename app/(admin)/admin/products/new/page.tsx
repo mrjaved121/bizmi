@@ -24,6 +24,7 @@ export default async function NewProductPage() {
         <ProductForm
           categories={categories}
           defaultValues={{
+            productType: "physical",
             name: "",
             slug: "",
             sku: "",

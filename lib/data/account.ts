@@ -1,4 +1,5 @@
 import { createClient } from "@/lib/supabase/server";
+import { getSignedFilesForProducts, type DownloadableFile } from "@/lib/digital-delivery";
 
 export async function getCurrentProfile() {
   const supabase = await createClient();
@@ -105,4 +106,39 @@ export async function getMyOrderDetail(orderId: string): Promise<AccountOrderDet
       lineTotalPkr: i.line_total_pkr ?? 0,
     })),
   };
+}
+
+export interface MyDownload {
+  productId: string;
+  productName: string;
+  grantedAt: string;
+  files: DownloadableFile[];
+}
+
+export async function getMyDownloads(): Promise<MyDownload[]> {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) return [];
+
+  const { data: grants } = await supabase
+    .from("digital_grants")
+    .select("product_id, granted_at, products(name)")
+    .eq("user_id", user.id)
+    .order("granted_at", { ascending: false });
+
+  if (!grants || grants.length === 0) return [];
+
+  const productIds = grants.map((g) => g.product_id).filter((id): id is string => Boolean(id));
+  const filesByProduct = await getSignedFilesForProducts(productIds);
+
+  return grants
+    .filter((g): g is typeof g & { product_id: string } => Boolean(g.product_id))
+    .map((g) => ({
+      productId: g.product_id,
+      productName: g.products?.name ?? "Digital product",
+      grantedAt: g.granted_at ?? "",
+      files: filesByProduct.get(g.product_id) ?? [],
+    }));
 }
