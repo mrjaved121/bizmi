@@ -225,7 +225,7 @@ create table digital_grants (
   granted_at timestamptz default now(),
   download_count int default 0,
   max_downloads int default 100,
-  primary key (user_id, product_id)
+  unique (user_id, product_id)
 );
 
 create table download_log (

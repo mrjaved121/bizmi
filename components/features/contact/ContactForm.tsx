@@ -4,6 +4,7 @@ import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { toast } from "sonner";
+import { submitContactForm } from "@/lib/actions/inquiries";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -47,11 +48,11 @@ export function ContactForm() {
   });
 
   async function onSubmit(values: ContactFormValues) {
-    // TODO: wire to the `submitContactForm` server action (Part 8 of
-    // BIZMI_MASTER_PROMPT.md) once Supabase is connected — it should insert
-    // into `service_inquiries` (service_type='general') and email sales.
-    await new Promise((resolve) => setTimeout(resolve, 600));
-    console.log("Contact form submitted", values);
+    const result = await submitContactForm(values);
+    if (!result.ok) {
+      toast.error(result.error);
+      return;
+    }
     toast.success("Message sent — we'll reply within 24 hours");
     reset({ subject: "general", name: "", email: "", phone: "", message: "" });
   }

@@ -5,6 +5,8 @@ import { useForm, useWatch, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Check, Download } from "lucide-react";
+import { toast } from "sonner";
+import { submitServiceInquiry } from "@/lib/actions/inquiries";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -76,12 +78,11 @@ export function BookDemoForm() {
   }
 
   async function onSubmit(values: FormValues) {
-    // TODO: wire to the `submitServiceInquiry` server action (Part 8 of
-    // BIZMI_MASTER_PROMPT.md) once Supabase is connected — inserts into
-    // `service_inquiries` (service_type='demo'), emails sales + Slack, and
-    // sends a confirmation email to the school.
-    await new Promise((resolve) => setTimeout(resolve, 700));
-    console.log("Demo booking submitted", values);
+    const result = await submitServiceInquiry(values);
+    if (!result.ok) {
+      toast.error(result.error);
+      return;
+    }
     setSubmitted(true);
   }
 
