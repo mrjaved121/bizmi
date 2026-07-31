@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import { Heart, Cpu, CircuitBoard, Microchip, type LucideIcon } from "lucide-react";
 import { Chip, type ChipVariant } from "@/components/features/Chip";
