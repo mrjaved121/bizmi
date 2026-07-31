@@ -37,7 +37,14 @@ export function Nav() {
         </nav>
 
         <div className="flex items-center gap-2">
-          <Button variant="ghost" size="icon" aria-label="Search" className="hidden sm:inline-flex">
+          <Button
+            variant="ghost"
+            size="icon"
+            aria-label="Search"
+            className="hidden sm:inline-flex"
+            nativeButton={false}
+            render={<Link href="/search" />}
+          >
             <Search className="h-5 w-5" />
           </Button>
           <Button

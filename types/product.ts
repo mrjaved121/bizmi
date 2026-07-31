@@ -17,3 +17,14 @@ export interface ProductCardData {
   isBestseller?: boolean;
   isNew?: boolean;
 }
+
+export interface ProductDetailData extends ProductCardData {
+  sku?: string;
+  shortDescription?: string;
+  longDescription?: string;
+  coverImage?: string;
+  gallery: string[];
+  specs: Record<string, string>;
+  components: { name: string; qty: number; note?: string }[];
+  inventoryCount: number;
+}

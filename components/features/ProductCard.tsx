@@ -1,37 +1,12 @@
 "use client";
 
 import Link from "next/link";
-import { Heart, Cpu, CircuitBoard, Microchip, type LucideIcon } from "lucide-react";
+import { Heart } from "lucide-react";
 import { Chip, type ChipVariant } from "@/components/features/Chip";
 import { formatPkr } from "@/lib/format";
+import { COLOR_TO_SOFT_BG, COLOR_TO_ICON_TEXT, BrandIcon } from "@/lib/product-visuals";
 import type { ProductCardData } from "@/types/product";
 import { cn } from "@/lib/utils";
-
-const COLOR_TO_SOFT_BG: Record<string, string> = {
-  orange: "bg-orange-soft",
-  blue: "bg-blue-soft",
-  red: "bg-red-soft",
-  purple: "bg-purple-soft",
-  green: "bg-green-soft",
-  yellow: "bg-yellow-soft",
-  pink: "bg-pink-soft",
-};
-
-const COLOR_TO_ICON_TEXT: Record<string, string> = {
-  orange: "text-orange",
-  blue: "text-blue",
-  red: "text-red",
-  purple: "text-purple",
-  green: "text-green",
-  yellow: "text-yellow",
-  pink: "text-pink",
-};
-
-const BRAND_ICON: Record<string, LucideIcon> = {
-  Arduino: Cpu,
-  "Raspberry Pi": CircuitBoard,
-  STM32: Microchip,
-};
 
 export function ProductCard({
   product,
@@ -41,7 +16,6 @@ export function ProductCard({
   className?: string;
 }) {
   const chipVariant = product.color as ChipVariant;
-  const Icon = (product.brand && BRAND_ICON[product.brand]) || Cpu;
 
   return (
     <Link
@@ -61,7 +35,8 @@ export function ProductCard({
           className="absolute -right-6 -top-6 h-24 w-24 rounded-full bg-white/30 blur-2xl"
           aria-hidden
         />
-        <Icon
+        <BrandIcon
+          brand={product.brand}
           className={cn(
             "h-16 w-16 transition-transform duration-300 group-hover:scale-110 group-hover:-rotate-3",
             COLOR_TO_ICON_TEXT[product.color] ?? "text-ink-2"
