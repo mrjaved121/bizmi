@@ -81,7 +81,22 @@ export type Database = {
         Row: { school_id: string; user_id: string; role_in_school: string | null };
         Insert: { school_id: string; user_id: string; role_in_school?: string | null };
         Update: Partial<Database["public"]["Tables"]["school_members"]["Insert"]>;
-        Relationships: [];
+        Relationships: [
+        {
+          foreignKeyName: "school_members_school_id_fkey";
+          columns: ["school_id"];
+          isOneToOne: false;
+          referencedRelation: "schools";
+          referencedColumns: ["id"];
+        },
+        {
+          foreignKeyName: "school_members_user_id_fkey";
+          columns: ["user_id"];
+          isOneToOne: false;
+          referencedRelation: "profiles";
+          referencedColumns: ["id"];
+        },
+      ];
       };
       classrooms: {
         Row: {
@@ -103,13 +118,43 @@ export type Database = {
           created_at?: string;
         };
         Update: Partial<Database["public"]["Tables"]["classrooms"]["Insert"]>;
-        Relationships: [];
+        Relationships: [
+        {
+          foreignKeyName: "classrooms_teacher_id_fkey";
+          columns: ["teacher_id"];
+          isOneToOne: false;
+          referencedRelation: "profiles";
+          referencedColumns: ["id"];
+        },
+        {
+          foreignKeyName: "classrooms_school_id_fkey";
+          columns: ["school_id"];
+          isOneToOne: false;
+          referencedRelation: "schools";
+          referencedColumns: ["id"];
+        },
+      ];
       };
       classroom_students: {
         Row: { classroom_id: string; student_id: string; joined_at: string };
         Insert: { classroom_id: string; student_id: string; joined_at?: string };
         Update: Partial<Database["public"]["Tables"]["classroom_students"]["Insert"]>;
-        Relationships: [];
+        Relationships: [
+        {
+          foreignKeyName: "classroom_students_classroom_id_fkey";
+          columns: ["classroom_id"];
+          isOneToOne: false;
+          referencedRelation: "classrooms";
+          referencedColumns: ["id"];
+        },
+        {
+          foreignKeyName: "classroom_students_student_id_fkey";
+          columns: ["student_id"];
+          isOneToOne: false;
+          referencedRelation: "profiles";
+          referencedColumns: ["id"];
+        },
+      ];
       };
       categories: {
         Row: {
@@ -135,7 +180,15 @@ export type Database = {
           is_active?: boolean;
         };
         Update: Partial<Database["public"]["Tables"]["categories"]["Insert"]>;
-        Relationships: [];
+        Relationships: [
+        {
+          foreignKeyName: "categories_parent_id_fkey";
+          columns: ["parent_id"];
+          isOneToOne: false;
+          referencedRelation: "categories";
+          referencedColumns: ["id"];
+        },
+      ];
       };
       products: {
         Row: {
@@ -213,7 +266,15 @@ export type Database = {
           updated_at?: string;
         };
         Update: Partial<Database["public"]["Tables"]["products"]["Insert"]>;
-        Relationships: [];
+        Relationships: [
+        {
+          foreignKeyName: "products_category_id_fkey";
+          columns: ["category_id"];
+          isOneToOne: false;
+          referencedRelation: "categories";
+          referencedColumns: ["id"];
+        },
+      ];
       };
       digital_files: {
         Row: {
@@ -237,13 +298,36 @@ export type Database = {
           order_index?: number;
         };
         Update: Partial<Database["public"]["Tables"]["digital_files"]["Insert"]>;
-        Relationships: [];
+        Relationships: [
+        {
+          foreignKeyName: "digital_files_product_id_fkey";
+          columns: ["product_id"];
+          isOneToOne: false;
+          referencedRelation: "products";
+          referencedColumns: ["id"];
+        },
+      ];
       };
       product_bundles: {
         Row: { bundle_id: string; included_product_id: string; discount_percent: number };
         Insert: { bundle_id: string; included_product_id: string; discount_percent?: number };
         Update: Partial<Database["public"]["Tables"]["product_bundles"]["Insert"]>;
-        Relationships: [];
+        Relationships: [
+        {
+          foreignKeyName: "product_bundles_bundle_id_fkey";
+          columns: ["bundle_id"];
+          isOneToOne: false;
+          referencedRelation: "products";
+          referencedColumns: ["id"];
+        },
+        {
+          foreignKeyName: "product_bundles_included_product_id_fkey";
+          columns: ["included_product_id"];
+          isOneToOne: false;
+          referencedRelation: "products";
+          referencedColumns: ["id"];
+        },
+      ];
       };
       carts: {
         Row: {
@@ -261,13 +345,36 @@ export type Database = {
           updated_at?: string;
         };
         Update: Partial<Database["public"]["Tables"]["carts"]["Insert"]>;
-        Relationships: [];
+        Relationships: [
+        {
+          foreignKeyName: "carts_user_id_fkey";
+          columns: ["user_id"];
+          isOneToOne: false;
+          referencedRelation: "profiles";
+          referencedColumns: ["id"];
+        },
+      ];
       };
       cart_items: {
         Row: { cart_id: string; product_id: string; quantity: number; price_at_add_pkr: number | null };
         Insert: { cart_id: string; product_id: string; quantity: number; price_at_add_pkr?: number | null };
         Update: Partial<Database["public"]["Tables"]["cart_items"]["Insert"]>;
-        Relationships: [];
+        Relationships: [
+        {
+          foreignKeyName: "cart_items_cart_id_fkey";
+          columns: ["cart_id"];
+          isOneToOne: false;
+          referencedRelation: "carts";
+          referencedColumns: ["id"];
+        },
+        {
+          foreignKeyName: "cart_items_product_id_fkey";
+          columns: ["product_id"];
+          isOneToOne: false;
+          referencedRelation: "products";
+          referencedColumns: ["id"];
+        },
+      ];
       };
       orders: {
         Row: {
@@ -357,7 +464,22 @@ export type Database = {
           created_at?: string;
         };
         Update: Partial<Database["public"]["Tables"]["orders"]["Insert"]>;
-        Relationships: [];
+        Relationships: [
+        {
+          foreignKeyName: "orders_user_id_fkey";
+          columns: ["user_id"];
+          isOneToOne: false;
+          referencedRelation: "profiles";
+          referencedColumns: ["id"];
+        },
+        {
+          foreignKeyName: "orders_school_id_fkey";
+          columns: ["school_id"];
+          isOneToOne: false;
+          referencedRelation: "schools";
+          referencedColumns: ["id"];
+        },
+      ];
       };
       order_items: {
         Row: {
@@ -383,7 +505,22 @@ export type Database = {
           line_total_pkr?: number | null;
         };
         Update: Partial<Database["public"]["Tables"]["order_items"]["Insert"]>;
-        Relationships: [];
+        Relationships: [
+        {
+          foreignKeyName: "order_items_order_id_fkey";
+          columns: ["order_id"];
+          isOneToOne: false;
+          referencedRelation: "orders";
+          referencedColumns: ["id"];
+        },
+        {
+          foreignKeyName: "order_items_product_id_fkey";
+          columns: ["product_id"];
+          isOneToOne: false;
+          referencedRelation: "products";
+          referencedColumns: ["id"];
+        },
+      ];
       };
       order_status_log: {
         Row: {
@@ -405,7 +542,22 @@ export type Database = {
           created_at?: string;
         };
         Update: Partial<Database["public"]["Tables"]["order_status_log"]["Insert"]>;
-        Relationships: [];
+        Relationships: [
+        {
+          foreignKeyName: "order_status_log_order_id_fkey";
+          columns: ["order_id"];
+          isOneToOne: false;
+          referencedRelation: "orders";
+          referencedColumns: ["id"];
+        },
+        {
+          foreignKeyName: "order_status_log_actor_id_fkey";
+          columns: ["actor_id"];
+          isOneToOne: false;
+          referencedRelation: "profiles";
+          referencedColumns: ["id"];
+        },
+      ];
       };
       digital_grants: {
         Row: {
@@ -427,7 +579,29 @@ export type Database = {
           max_downloads?: number;
         };
         Update: Partial<Database["public"]["Tables"]["digital_grants"]["Insert"]>;
-        Relationships: [];
+        Relationships: [
+        {
+          foreignKeyName: "digital_grants_user_id_fkey";
+          columns: ["user_id"];
+          isOneToOne: false;
+          referencedRelation: "profiles";
+          referencedColumns: ["id"];
+        },
+        {
+          foreignKeyName: "digital_grants_product_id_fkey";
+          columns: ["product_id"];
+          isOneToOne: false;
+          referencedRelation: "products";
+          referencedColumns: ["id"];
+        },
+        {
+          foreignKeyName: "digital_grants_order_id_fkey";
+          columns: ["order_id"];
+          isOneToOne: false;
+          referencedRelation: "orders";
+          referencedColumns: ["id"];
+        },
+      ];
       };
       download_log: {
         Row: {
@@ -447,7 +621,22 @@ export type Database = {
           downloaded_at?: string;
         };
         Update: Partial<Database["public"]["Tables"]["download_log"]["Insert"]>;
-        Relationships: [];
+        Relationships: [
+        {
+          foreignKeyName: "download_log_grant_id_fkey";
+          columns: ["grant_id"];
+          isOneToOne: false;
+          referencedRelation: "digital_grants";
+          referencedColumns: ["id"];
+        },
+        {
+          foreignKeyName: "download_log_file_id_fkey";
+          columns: ["file_id"];
+          isOneToOne: false;
+          referencedRelation: "digital_files";
+          referencedColumns: ["id"];
+        },
+      ];
       };
       courses: {
         Row: {
@@ -513,7 +702,15 @@ export type Database = {
           is_free_preview?: boolean;
         };
         Update: Partial<Database["public"]["Tables"]["course_lessons"]["Insert"]>;
-        Relationships: [];
+        Relationships: [
+        {
+          foreignKeyName: "course_lessons_course_id_fkey";
+          columns: ["course_id"];
+          isOneToOne: false;
+          referencedRelation: "courses";
+          referencedColumns: ["id"];
+        },
+      ];
       };
       course_enrollments: {
         Row: {
@@ -531,7 +728,22 @@ export type Database = {
           progress_percent?: number;
         };
         Update: Partial<Database["public"]["Tables"]["course_enrollments"]["Insert"]>;
-        Relationships: [];
+        Relationships: [
+        {
+          foreignKeyName: "course_enrollments_user_id_fkey";
+          columns: ["user_id"];
+          isOneToOne: false;
+          referencedRelation: "profiles";
+          referencedColumns: ["id"];
+        },
+        {
+          foreignKeyName: "course_enrollments_course_id_fkey";
+          columns: ["course_id"];
+          isOneToOne: false;
+          referencedRelation: "courses";
+          referencedColumns: ["id"];
+        },
+      ];
       };
       service_inquiries: {
         Row: {
@@ -571,7 +783,15 @@ export type Database = {
           created_at?: string;
         };
         Update: Partial<Database["public"]["Tables"]["service_inquiries"]["Insert"]>;
-        Relationships: [];
+        Relationships: [
+        {
+          foreignKeyName: "service_inquiries_assigned_to_fkey";
+          columns: ["assigned_to"];
+          isOneToOne: false;
+          referencedRelation: "profiles";
+          referencedColumns: ["id"];
+        },
+      ];
       };
       testimonials: {
         Row: {
@@ -595,13 +815,36 @@ export type Database = {
           created_at?: string;
         };
         Update: Partial<Database["public"]["Tables"]["testimonials"]["Insert"]>;
-        Relationships: [];
+        Relationships: [
+        {
+          foreignKeyName: "testimonials_school_id_fkey";
+          columns: ["school_id"];
+          isOneToOne: false;
+          referencedRelation: "schools";
+          referencedColumns: ["id"];
+        },
+      ];
       };
       wishlists: {
         Row: { user_id: string; product_id: string; added_at: string };
         Insert: { user_id: string; product_id: string; added_at?: string };
         Update: Partial<Database["public"]["Tables"]["wishlists"]["Insert"]>;
-        Relationships: [];
+        Relationships: [
+        {
+          foreignKeyName: "wishlists_user_id_fkey";
+          columns: ["user_id"];
+          isOneToOne: false;
+          referencedRelation: "profiles";
+          referencedColumns: ["id"];
+        },
+        {
+          foreignKeyName: "wishlists_product_id_fkey";
+          columns: ["product_id"];
+          isOneToOne: false;
+          referencedRelation: "products";
+          referencedColumns: ["id"];
+        },
+      ];
       };
       product_reviews: {
         Row: {
@@ -627,7 +870,22 @@ export type Database = {
           created_at?: string;
         };
         Update: Partial<Database["public"]["Tables"]["product_reviews"]["Insert"]>;
-        Relationships: [];
+        Relationships: [
+        {
+          foreignKeyName: "product_reviews_product_id_fkey";
+          columns: ["product_id"];
+          isOneToOne: false;
+          referencedRelation: "products";
+          referencedColumns: ["id"];
+        },
+        {
+          foreignKeyName: "product_reviews_user_id_fkey";
+          columns: ["user_id"];
+          isOneToOne: false;
+          referencedRelation: "profiles";
+          referencedColumns: ["id"];
+        },
+      ];
       };
       discount_codes: {
         Row: {

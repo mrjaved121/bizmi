@@ -6,6 +6,7 @@ import { Menu, Search } from "lucide-react";
 import { BrandMark } from "@/components/brand/BrandMark";
 import { Button } from "@/components/ui/button";
 import { CartDrawer } from "@/components/features/shop/CartDrawer";
+import { AccountNavItem } from "@/components/features/auth/AccountNavItem";
 import {
   Sheet,
   SheetContent,
@@ -48,6 +49,7 @@ export function Nav() {
           >
             <Search className="h-5 w-5" />
           </Button>
+          <AccountNavItem />
           <CartDrawer />
 
           <Sheet open={open} onOpenChange={setOpen}>

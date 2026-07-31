@@ -31,10 +31,9 @@ export async function updateSession(request: NextRequest) {
   } = await supabase.auth.getUser();
 
   const pathname = request.nextUrl.pathname;
-  const isProtected =
-    pathname.startsWith("/account") ||
-    pathname.startsWith("/teacher") ||
-    pathname.startsWith("/admin");
+  const isAdminRoute = pathname.startsWith("/admin");
+  const isTeacherRoute = pathname.startsWith("/teacher");
+  const isProtected = pathname.startsWith("/account") || isTeacherRoute || isAdminRoute;
 
   if (isProtected && !user) {
     const redirectUrl = request.nextUrl.clone();
@@ -43,9 +42,25 @@ export async function updateSession(request: NextRequest) {
     return NextResponse.redirect(redirectUrl);
   }
 
-  // TODO(Phase 3): once /auth/sign-in exists and profiles are fetchable here,
-  // add role checks — /admin requires role in ('admin','staff'), /teacher
-  // requires role in ('teacher','admin','staff'). Auth-only gating for now.
+  if ((isAdminRoute || isTeacherRoute) && user) {
+    const { data: profile } = await supabase
+      .from("profiles")
+      .select("role")
+      .eq("id", user.id)
+      .single();
+
+    const role = profile?.role;
+    const allowed = isAdminRoute
+      ? role === "admin" || role === "staff"
+      : role === "teacher" || role === "admin" || role === "staff";
+
+    if (!allowed) {
+      const redirectUrl = request.nextUrl.clone();
+      redirectUrl.pathname = "/account";
+      redirectUrl.search = "";
+      return NextResponse.redirect(redirectUrl);
+    }
+  }
 
   return supabaseResponse;
 }

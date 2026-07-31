@@ -3,6 +3,7 @@
 import { randomUUID } from "node:crypto";
 import { z } from "zod";
 import { createAdminClient } from "@/lib/supabase/admin";
+import { createClient } from "@/lib/supabase/server";
 import { calculateDeliveryFee } from "@/lib/shipping";
 import { sendOrderConfirmationEmail } from "@/lib/email/send-order-confirmation";
 
@@ -33,6 +34,11 @@ export async function createOrder(input: CheckoutInput): Promise<CheckoutResult>
     return { ok: false, error: "Please check the form and try again." };
   }
   const data = parsed.data;
+
+  const authClient = await createClient();
+  const {
+    data: { user },
+  } = await authClient.auth.getUser();
 
   const supabase = createAdminClient();
 
@@ -75,6 +81,7 @@ export async function createOrder(input: CheckoutInput): Promise<CheckoutResult>
     .insert({
       id: orderId,
       order_number: orderNumber,
+      user_id: user?.id ?? null,
       guest_email: data.email,
       guest_phone: data.phone,
       status: "pending",
