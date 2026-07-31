@@ -4,6 +4,7 @@ import { Plus } from "lucide-react";
 import { getAdminProducts } from "@/lib/data/admin-products";
 import { formatPkr } from "@/lib/format";
 import { Button } from "@/components/ui/button";
+import { DeleteProductButton } from "@/components/features/admin/DeleteProductButton";
 import { cn } from "@/lib/utils";
 
 export const metadata: Metadata = {
@@ -39,12 +40,13 @@ export default async function AdminProductsPage() {
               <th className="px-5 py-3 text-right font-normal">Price</th>
               <th className="px-5 py-3 text-right font-normal">Stock</th>
               <th className="px-5 py-3 font-normal">Status</th>
+              <th className="px-5 py-3 font-normal" />
             </tr>
           </thead>
           <tbody className="divide-y divide-line">
             {products.length === 0 && (
               <tr>
-                <td colSpan={7} className="px-5 py-10 text-center text-ink-2">
+                <td colSpan={8} className="px-5 py-10 text-center text-ink-2">
                   No products yet.
                 </td>
               </tr>
@@ -86,6 +88,9 @@ export default async function AdminProductsPage() {
                   >
                     {product.isActive ? "Active" : "Inactive"}
                   </span>
+                </td>
+                <td className="px-5 py-3 text-right">
+                  <DeleteProductButton productId={product.id} productName={product.name} />
                 </td>
               </tr>
             ))}

@@ -129,3 +129,32 @@ export async function updateProduct(id: string, input: AdminProductInput): Promi
   revalidatePath(`/admin/products/${id}`);
   return { ok: true };
 }
+
+export async function deleteProduct(id: string): Promise<ActionResult> {
+  try {
+    await requireStaff();
+  } catch (err) {
+    if (err instanceof ForbiddenError) return { ok: false, error: "You don't have permission to do that." };
+    throw err;
+  }
+
+  const supabase = await createClient();
+  const { error } = await supabase.from("products").delete().eq("id", id);
+
+  if (error) {
+    // products.id is referenced by order_items with no ON DELETE clause
+    // (default RESTRICT) — a product that's ever been ordered can't be hard
+    // deleted without orphaning that order's line items, so this is
+    // intentional, not a bug to work around
+    if (error.code === "23503" || error.message.includes("foreign key constraint")) {
+      return {
+        ok: false,
+        error: "This product has order history and can't be deleted — set it to Inactive instead to hide it from the shop.",
+      };
+    }
+    return { ok: false, error: "Something went wrong deleting the product." };
+  }
+
+  revalidatePath("/admin/products");
+  return { ok: true };
+}
