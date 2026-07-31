@@ -8,6 +8,7 @@ const signUpSchema = z.object({
   email: z.string().email("Enter a valid email address"),
   phone: z.string().min(7, "Enter a valid phone number"),
   password: z.string().min(8, "Password must be at least 8 characters"),
+  isTeacher: z.boolean().optional(),
 });
 
 export type SignUpInput = z.infer<typeof signUpSchema>;
@@ -28,7 +29,7 @@ export async function signUp(input: SignUpInput): Promise<AuthResult> {
     password: data.password,
     options: {
       emailRedirectTo: `${siteUrl}/auth/callback`,
-      data: { full_name: data.fullName, phone: data.phone },
+      data: { full_name: data.fullName, phone: data.phone, role: data.isTeacher ? "teacher" : "customer" },
     },
   });
 

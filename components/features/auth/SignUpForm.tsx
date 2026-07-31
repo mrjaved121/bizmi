@@ -17,6 +17,7 @@ const schema = z.object({
   email: z.string().email("Enter a valid email address"),
   phone: z.string().min(7, "Enter a valid phone number"),
   password: z.string().min(8, "Password must be at least 8 characters"),
+  isTeacher: z.boolean(),
 });
 
 type FormValues = z.infer<typeof schema>;
@@ -30,7 +31,7 @@ export function SignUpForm() {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-  } = useForm<FormValues>({ resolver: zodResolver(schema) });
+  } = useForm<FormValues>({ resolver: zodResolver(schema), defaultValues: { isTeacher: false } });
 
   async function onSubmit(values: FormValues) {
     setFormError(null);
@@ -80,6 +81,11 @@ export function SignUpForm() {
           <Input id="password" type="password" className="mt-1.5" {...register("password")} />
           {errors.password && <p className="mt-1 text-xs text-red">{errors.password.message}</p>}
         </div>
+
+        <label className="flex items-center gap-2 text-sm text-ink-2">
+          <input type="checkbox" className="h-4 w-4 rounded border-line" {...register("isTeacher")} />
+          I&apos;m a teacher setting up a classroom
+        </label>
 
         {formError && <p className="text-sm text-red">{formError}</p>}
 

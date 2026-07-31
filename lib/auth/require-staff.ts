@@ -25,3 +25,24 @@ export async function requireStaff() {
 
   return { userId: user.id, role: profile.role as "admin" | "staff" };
 }
+
+export async function requireTeacher() {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) throw new ForbiddenError("Not authenticated");
+
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("role")
+    .eq("id", user.id)
+    .single();
+
+  const allowed = profile?.role === "teacher" || profile?.role === "admin" || profile?.role === "staff";
+  if (!allowed) {
+    throw new ForbiddenError("Not authorized");
+  }
+
+  return { userId: user.id, role: profile!.role as "teacher" | "admin" | "staff" };
+}
