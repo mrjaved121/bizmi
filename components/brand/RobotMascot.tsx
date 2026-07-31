@@ -1,6 +1,6 @@
 import { cn } from "@/lib/utils";
 
-type Pose = "waving" | "thinking" | "building";
+type Pose = "waving" | "thinking" | "building" | "confused" | "broken";
 
 export function RobotMascot({
   pose = "waving",
@@ -26,7 +26,20 @@ export function RobotMascot({
         strokeWidth="4"
         strokeLinecap="round"
       />
-      <circle cx="100" cy="8" r="8" fill="var(--red)" />
+      <circle cx="100" cy="8" r="8" fill={pose === "broken" ? "var(--muted)" : "var(--red)"} />
+
+      {pose === "confused" && (
+        <text
+          x="150"
+          y="30"
+          fontSize="28"
+          fontWeight="700"
+          fill="var(--purple)"
+          fontFamily="serif"
+        >
+          ?
+        </text>
+      )}
 
       {/* head */}
       <rect
@@ -36,6 +49,7 @@ export function RobotMascot({
         height="70"
         rx="24"
         fill="var(--orange)"
+        transform={pose === "confused" ? "rotate(-6 100 69)" : undefined}
       />
       {/* screen face */}
       <rect
@@ -45,16 +59,40 @@ export function RobotMascot({
         height="36"
         rx="12"
         fill="var(--ink)"
+        transform={pose === "confused" ? "rotate(-6 100 69)" : undefined}
       />
-      <circle cx="92" cy="70" r="5" fill="var(--blue-soft)" />
-      <circle cx="116" cy="70" r="5" fill="var(--blue-soft)" />
-      <path
-        d="M92 80 Q100 87 108 80"
-        stroke="var(--blue-soft)"
-        strokeWidth="3"
-        fill="none"
-        strokeLinecap="round"
-      />
+
+      {pose === "broken" ? (
+        <g stroke="var(--red)" strokeWidth="3" strokeLinecap="round">
+          <path d="M87 65 L97 75 M97 65 L87 75" />
+          <path d="M103 65 L113 75 M113 65 L103 75" />
+          <path d="M92 82 Q100 78 108 82" fill="none" />
+        </g>
+      ) : pose === "confused" ? (
+        <g transform="rotate(-6 100 69)">
+          <circle cx="90" cy="68" r="5" fill="var(--blue-soft)" />
+          <circle cx="118" cy="72" r="5" fill="var(--blue-soft)" />
+          <path
+            d="M92 82 Q100 80 108 84"
+            stroke="var(--blue-soft)"
+            strokeWidth="3"
+            fill="none"
+            strokeLinecap="round"
+          />
+        </g>
+      ) : (
+        <>
+          <circle cx="92" cy="70" r="5" fill="var(--blue-soft)" />
+          <circle cx="116" cy="70" r="5" fill="var(--blue-soft)" />
+          <path
+            d="M92 80 Q100 87 108 80"
+            stroke="var(--blue-soft)"
+            strokeWidth="3"
+            fill="none"
+            strokeLinecap="round"
+          />
+        </>
+      )}
 
       {/* body */}
       <rect
@@ -73,7 +111,7 @@ export function RobotMascot({
         rx="14"
         fill="var(--orange-soft)"
       />
-      <circle cx="100" cy="152" r="10" fill="var(--yellow)" />
+      <circle cx="100" cy="152" r="10" fill={pose === "broken" ? "var(--muted)" : "var(--yellow)"} />
 
       {/* left arm (static) */}
       <rect

@@ -6,6 +6,11 @@ import {
   Microchip,
   Gauge,
   Download,
+  BookOpen,
+  Wrench,
+  Users,
+  FileText,
+  BarChart3,
   type LucideIcon,
 } from "lucide-react";
 import { ArrowBubble } from "@/components/features/ArrowBubble";
@@ -40,6 +45,11 @@ const TITLE_ICON: Record<string, LucideIcon> = {
   STM32: Microchip,
   "Sensors & shields": Gauge,
   "Digital projects": Download,
+  Curriculum: BookOpen,
+  "Lab setup": Wrench,
+  "Teacher training": Users,
+  "Lesson plans": FileText,
+  "Student evaluation": BarChart3,
 };
 
 export function DepartmentCard({
