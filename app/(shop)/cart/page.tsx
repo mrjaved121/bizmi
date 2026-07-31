@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { Minus, Plus, X, ShoppingCart, Truck, ShieldCheck, Wallet } from "lucide-react";
-import { toast } from "sonner";
 import { useCart, cartCount, cartSubtotalPkr } from "@/lib/cart";
 import { formatPkr } from "@/lib/format";
 import { BrandIcon, COLOR_TO_SOFT_BG, COLOR_TO_ICON_TEXT } from "@/lib/product-visuals";
@@ -138,9 +137,8 @@ export default function CartPage() {
               <Button
                 size="lg"
                 className="mt-6 w-full gap-2 rounded-full bg-orange py-3.5 text-white hover:bg-orange/90"
-                onClick={() =>
-                  toast.info("Checkout launches in the next phase — your cart is saved.")
-                }
+                nativeButton={false}
+                render={<Link href="/checkout" />}
               >
                 <ShoppingCart className="h-4 w-4" />
                 Proceed to checkout
