@@ -133,7 +133,7 @@ export default async function ProductDetailPage({
             )}
 
             <div className="mt-8">
-              <ProductActions productName={product.name} inventoryCount={product.inventoryCount} />
+              <ProductActions product={product} />
             </div>
 
             <div className="mt-6 flex flex-wrap gap-4 text-sm text-ink-2">

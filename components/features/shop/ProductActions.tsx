@@ -3,24 +3,32 @@
 import { useState } from "react";
 import { Heart, Minus, Plus, ShoppingCart } from "lucide-react";
 import { toast } from "sonner";
+import { useCart } from "@/lib/cart";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import type { ProductDetailData } from "@/types/product";
 
-export function ProductActions({
-  productName,
-  inventoryCount,
-}: {
-  productName: string;
-  inventoryCount: number;
-}) {
+export function ProductActions({ product }: { product: ProductDetailData }) {
   const [quantity, setQuantity] = useState(1);
   const [wishlisted, setWishlisted] = useState(false);
-  const outOfStock = inventoryCount <= 0;
+  const addItem = useCart((s) => s.addItem);
+  const outOfStock = product.inventoryCount <= 0;
 
   function addToCart() {
-    // TODO(Phase 3): wire to the lib/cart.ts Zustand store once the cart
-    // system ships — for now this just confirms the interaction works.
-    toast.success(`${quantity} × ${productName} — cart launches in the next phase`);
+    addItem(
+      {
+        slug: product.slug,
+        name: product.name,
+        categoryHref: product.categoryHref,
+        color: product.color,
+        brand: product.brand,
+        pricePkr: product.pricePkr,
+        compareAtPricePkr: product.compareAtPricePkr,
+        maxQuantity: product.inventoryCount,
+      },
+      quantity
+    );
+    toast.success(`${quantity} × ${product.name} added to cart`);
   }
 
   return (
@@ -41,7 +49,9 @@ export function ProductActions({
           <button
             type="button"
             aria-label="Increase quantity"
-            onClick={() => setQuantity((q) => Math.min(inventoryCount || 99, q + 1))}
+            onClick={() =>
+              setQuantity((q) => Math.min(product.inventoryCount || 99, q + 1))
+            }
             className="flex h-11 w-11 items-center justify-center text-ink-2 hover:text-ink"
           >
             <Plus className="h-4 w-4" />

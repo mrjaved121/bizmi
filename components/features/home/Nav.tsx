@@ -2,9 +2,10 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { Menu, Search, ShoppingCart } from "lucide-react";
+import { Menu, Search } from "lucide-react";
 import { BrandMark } from "@/components/brand/BrandMark";
 import { Button } from "@/components/ui/button";
+import { CartDrawer } from "@/components/features/shop/CartDrawer";
 import {
   Sheet,
   SheetContent,
@@ -47,15 +48,7 @@ export function Nav() {
           >
             <Search className="h-5 w-5" />
           </Button>
-          <Button
-            variant="ghost"
-            size="icon"
-            aria-label="Cart"
-            nativeButton={false}
-            render={<Link href="/cart" />}
-          >
-            <ShoppingCart className="h-5 w-5" />
-          </Button>
+          <CartDrawer />
 
           <Sheet open={open} onOpenChange={setOpen}>
             <SheetTrigger
