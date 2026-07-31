@@ -7,7 +7,7 @@ export function Reveal({
   delay = 0,
   className,
 }: {
-  children: React.ReactNode;
+  children?: React.ReactNode;
   delay?: number;
   className?: string;
 }) {
