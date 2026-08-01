@@ -88,6 +88,7 @@ export const FEATURED_DEV_BOARDS: (ProductCardData & {
     difficulty: "beginner",
     isBestseller: true,
     brandGroup: "arduino",
+    coverImage: "/images/products/arduino-uno-r3.jpg",
   },
   {
     slug: "arduino-nano-esp32",
@@ -100,6 +101,7 @@ export const FEATURED_DEV_BOARDS: (ProductCardData & {
     difficulty: "intermediate",
     isNew: true,
     brandGroup: "arduino",
+    coverImage: "/images/products/arduino-nano-esp32.jpg",
   },
   {
     slug: "raspberry-pi-5-8gb",
@@ -112,6 +114,7 @@ export const FEATURED_DEV_BOARDS: (ProductCardData & {
     difficulty: "intermediate",
     isBestseller: true,
     brandGroup: "raspberry-pi",
+    coverImage: "/images/products/raspberry-pi-5-8gb.jpg",
   },
   {
     slug: "raspberry-pi-pico-w",
@@ -123,6 +126,7 @@ export const FEATURED_DEV_BOARDS: (ProductCardData & {
     pricePkr: 1450,
     difficulty: "beginner",
     brandGroup: "raspberry-pi",
+    coverImage: "/images/products/raspberry-pi-pico-w.jpg",
   },
   {
     slug: "stm32-blue-pill",
@@ -134,6 +138,7 @@ export const FEATURED_DEV_BOARDS: (ProductCardData & {
     pricePkr: 950,
     difficulty: "advanced",
     brandGroup: "stm32",
+    coverImage: "/images/products/stm32-blue-pill.jpg",
   },
   {
     slug: "stm32-nucleo-f446re",
@@ -146,6 +151,7 @@ export const FEATURED_DEV_BOARDS: (ProductCardData & {
     difficulty: "advanced",
     isNew: true,
     brandGroup: "stm32",
+    coverImage: "/images/products/stm32-nucleo-f446re.jpg",
   },
 ];
 
