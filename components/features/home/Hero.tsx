@@ -1,9 +1,9 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { RobotMascot } from "@/components/brand/RobotMascot";
 import { Eyebrow } from "@/components/features/Eyebrow";
 
 const container = {
@@ -94,9 +94,16 @@ export function Hero() {
             <motion.div
               animate={{ y: [0, -12, 0] }}
               transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut" }}
-              className="h-full w-full"
+              className="relative h-full w-full"
             >
-              <RobotMascot pose="waving" className="drop-shadow-xl" />
+              <Image
+                src="/images/hero-robot.png"
+                alt="Bizmi robot mascot waving, surrounded by robotics kit parts"
+                fill
+                priority
+                sizes="(min-width: 1024px) 28rem, 80vw"
+                className="object-contain drop-shadow-xl"
+              />
             </motion.div>
           </motion.div>
 
