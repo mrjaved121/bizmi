@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { cn } from "@/lib/utils";
 
 const LETTERS: { char: string; color: string }[] = [
@@ -8,33 +9,47 @@ const LETTERS: { char: string; color: string }[] = [
   { char: "i", color: "var(--green)" },
 ];
 
+// logo-icon.png is 400x480 — height drives the box, width follows that ratio
+const ICON_ASPECT = 400 / 480;
+
 const SIZES = {
-  sm: "text-xl",
-  md: "text-2xl",
-  lg: "text-4xl",
+  sm: { text: "text-xl", iconHeight: 28 },
+  md: { text: "text-2xl", iconHeight: 34 },
+  lg: { text: "text-4xl", iconHeight: 52 },
 } as const;
 
 export function BrandMark({
   size = "md",
   className,
+  priority,
 }: {
   size?: keyof typeof SIZES;
   className?: string;
+  priority?: boolean;
 }) {
+  const { text, iconHeight } = SIZES[size];
+  const iconWidth = Math.round(iconHeight * ICON_ASPECT);
+
   return (
     <span
-      className={cn(
-        "font-serif font-semibold tracking-tight select-none",
-        SIZES[size],
-        className
-      )}
+      className={cn("inline-flex items-center gap-2 select-none", className)}
       aria-label="Bizmi"
     >
-      {LETTERS.map((letter, i) => (
-        <span key={i} style={{ color: letter.color }}>
-          {letter.char}
-        </span>
-      ))}
+      <Image
+        src="/images/logo-icon.png"
+        alt=""
+        width={iconWidth}
+        height={iconHeight}
+        priority={priority}
+        className="shrink-0"
+      />
+      <span className={cn("font-serif font-semibold tracking-tight", text)}>
+        {LETTERS.map((letter, i) => (
+          <span key={i} style={{ color: letter.color }}>
+            {letter.char}
+          </span>
+        ))}
+      </span>
     </span>
   );
 }
