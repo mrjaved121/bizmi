@@ -1,14 +1,12 @@
 "use client";
 
 import Link from "next/link";
-import Image from "next/image";
 import { Minus, Plus, X, ShoppingCart, Truck, ShieldCheck, Wallet } from "lucide-react";
 import { useCart, cartCount, cartSubtotalPkr, cartItemHref } from "@/lib/cart";
 import { formatPkr } from "@/lib/format";
-import { BrandIcon, COLOR_TO_SOFT_BG, COLOR_TO_ICON_TEXT } from "@/lib/product-visuals";
+import { ProductThumb } from "@/components/features/shop/ProductThumb";
 import { Button } from "@/components/ui/button";
 import { RobotMascot } from "@/components/brand/RobotMascot";
-import { cn } from "@/lib/utils";
 
 export default function CartPage() {
   const items = useCart((s) => s.items);
@@ -50,28 +48,16 @@ export default function CartPage() {
           <ul className="flex flex-col divide-y divide-line rounded-3xl border border-line bg-white">
             {items.map((item) => (
               <li key={item.slug} className="flex gap-4 p-5">
-                <Link
-                  href={cartItemHref(item)}
-                  className={cn(
-                    "relative flex h-24 w-24 shrink-0 items-center justify-center overflow-hidden rounded-2xl",
-                    COLOR_TO_SOFT_BG[item.color] ?? "bg-surface-2"
-                  )}
-                >
-                  {item.coverImage ? (
-                    <Image
-                      src={item.coverImage}
-                      alt={item.name}
-                      fill
-                      sizes="96px"
-                      className="object-cover"
-                    />
-                  ) : (
-                    <BrandIcon
-                      brand={item.brand}
-                      className={cn("h-10 w-10", COLOR_TO_ICON_TEXT[item.color] ?? "text-ink-2")}
-                      strokeWidth={1.5}
-                    />
-                  )}
+                <Link href={cartItemHref(item)} className="shrink-0">
+                  <ProductThumb
+                    coverImage={item.coverImage}
+                    brand={item.brand}
+                    name={item.name}
+                    color={item.color}
+                    className="h-24 w-24 rounded-2xl"
+                    sizes="96px"
+                    iconClassName="h-10 w-10"
+                  />
                 </Link>
 
                 <div className="flex flex-1 flex-col justify-between">

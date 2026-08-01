@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import Image from "next/image";
 import { Truck, PackageCheck } from "lucide-react";
 import {
   getProductDetail,
@@ -10,13 +9,12 @@ import {
 import { Breadcrumb } from "@/components/features/Breadcrumb";
 import { Chip, type ChipVariant } from "@/components/features/Chip";
 import { ProductCard } from "@/components/features/ProductCard";
+import { ProductThumb } from "@/components/features/shop/ProductThumb";
 import { Reveal } from "@/components/features/Reveal";
 import { Eyebrow } from "@/components/features/Eyebrow";
 import { ProductActions } from "@/components/features/shop/ProductActions";
 import { ProductTabs } from "@/components/features/shop/ProductTabs";
-import { COLOR_TO_SOFT_BG, COLOR_TO_ICON_TEXT, BrandIcon } from "@/lib/product-visuals";
 import { formatPkr } from "@/lib/format";
-import { cn } from "@/lib/utils";
 
 export const revalidate = 3600;
 
@@ -66,33 +64,16 @@ export default async function ProductDetailPage({
       <section className="py-10 sm:py-16">
         <div className="mx-auto grid max-w-7xl gap-12 px-6 lg:grid-cols-2">
           <Reveal className="lg:sticky lg:top-24 lg:self-start">
-            <div
-              className={cn(
-                "relative flex aspect-square items-center justify-center overflow-hidden rounded-3xl",
-                COLOR_TO_SOFT_BG[product.color] ?? "bg-surface-2"
-              )}
-            >
-              <div
-                className="absolute -right-10 -top-10 h-48 w-48 rounded-full bg-white/30 blur-3xl"
-                aria-hidden
-              />
-              {product.coverImage ? (
-                <Image
-                  src={product.coverImage}
-                  alt={product.name}
-                  fill
-                  sizes="(min-width: 1024px) 50vw, 100vw"
-                  priority
-                  className="object-cover"
-                />
-              ) : (
-                <BrandIcon
-                  brand={product.brand}
-                  className={cn("h-40 w-40", COLOR_TO_ICON_TEXT[product.color] ?? "text-ink-2")}
-                  strokeWidth={1.25}
-                />
-              )}
-            </div>
+            <ProductThumb
+              coverImage={product.coverImage}
+              brand={product.brand}
+              name={product.name}
+              color={product.color}
+              className="aspect-square rounded-3xl"
+              sizes="(min-width: 1024px) 50vw, 100vw"
+              priority
+              iconClassName="h-40 w-40"
+            />
           </Reveal>
 
           <Reveal delay={0.08}>

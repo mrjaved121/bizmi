@@ -1,11 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import Image from "next/image";
 import { Heart } from "lucide-react";
 import { Chip, type ChipVariant } from "@/components/features/Chip";
 import { formatPkr } from "@/lib/format";
-import { COLOR_TO_SOFT_BG, COLOR_TO_ICON_TEXT, BrandIcon } from "@/lib/product-visuals";
+import { ProductThumb } from "@/components/features/shop/ProductThumb";
 import type { ProductCardData } from "@/types/product";
 import { cn } from "@/lib/utils";
 
@@ -26,34 +25,16 @@ export function ProductCard({
         className
       )}
     >
-      <div
-        className={cn(
-          "relative flex aspect-square items-center justify-center overflow-hidden rounded-2xl",
-          COLOR_TO_SOFT_BG[product.color] ?? "bg-surface-2"
-        )}
+      <ProductThumb
+        coverImage={product.coverImage}
+        brand={product.brand}
+        name={product.name}
+        color={product.color}
+        className="aspect-square rounded-2xl"
+        sizes="(min-width: 1024px) 25vw, (min-width: 640px) 33vw, 50vw"
+        imageClassName="transition-transform duration-300 group-hover:scale-110"
+        iconClassName="h-16 w-16 transition-transform duration-300 group-hover:scale-110 group-hover:-rotate-3"
       >
-        <div
-          className="absolute -right-6 -top-6 h-24 w-24 rounded-full bg-white/30 blur-2xl"
-          aria-hidden
-        />
-        {product.coverImage ? (
-          <Image
-            src={product.coverImage}
-            alt={product.name}
-            fill
-            sizes="(min-width: 1024px) 25vw, (min-width: 640px) 33vw, 50vw"
-            className="object-cover transition-transform duration-300 group-hover:scale-110"
-          />
-        ) : (
-          <BrandIcon
-            brand={product.brand}
-            className={cn(
-              "h-16 w-16 transition-transform duration-300 group-hover:scale-110 group-hover:-rotate-3",
-              COLOR_TO_ICON_TEXT[product.color] ?? "text-ink-2"
-            )}
-            strokeWidth={1.5}
-          />
-        )}
         <span className="absolute bottom-3 left-3 font-mono text-[10px] uppercase tracking-widest text-ink-2/70">
           {product.brand ?? product.category}
         </span>
@@ -72,7 +53,7 @@ export function ProductCard({
             </Chip>
           </div>
         )}
-      </div>
+      </ProductThumb>
 
       <div className="mt-4 flex-1">
         <Chip variant={chipVariant}>{product.category}</Chip>

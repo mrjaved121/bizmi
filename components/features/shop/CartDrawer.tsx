@@ -2,11 +2,10 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import Image from "next/image";
 import { Minus, Plus, ShoppingCart, X } from "lucide-react";
-import { useCart, cartCount, cartSubtotalPkr } from "@/lib/cart";
+import { useCart, cartCount, cartSubtotalPkr, cartItemHref } from "@/lib/cart";
 import { formatPkr } from "@/lib/format";
-import { BrandIcon, COLOR_TO_SOFT_BG, COLOR_TO_ICON_TEXT } from "@/lib/product-visuals";
+import { ProductThumb } from "@/components/features/shop/ProductThumb";
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
@@ -15,7 +14,6 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { cn } from "@/lib/utils";
 
 export function CartDrawer() {
   const [open, setOpen] = useState(false);
@@ -63,33 +61,20 @@ export function CartDrawer() {
               <ul className="flex flex-col divide-y divide-line">
                 {items.map((item) => (
                   <li key={item.slug} className="flex gap-3 py-4">
-                    <div
-                      className={cn(
-                        "relative flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden rounded-xl",
-                        COLOR_TO_SOFT_BG[item.color] ?? "bg-surface-2"
-                      )}
-                    >
-                      {item.coverImage ? (
-                        <Image
-                          src={item.coverImage}
-                          alt={item.name}
-                          fill
-                          sizes="64px"
-                          className="object-cover"
-                        />
-                      ) : (
-                        <BrandIcon
-                          brand={item.brand}
-                          className={cn("h-8 w-8", COLOR_TO_ICON_TEXT[item.color] ?? "text-ink-2")}
-                          strokeWidth={1.5}
-                        />
-                      )}
-                    </div>
+                    <ProductThumb
+                      coverImage={item.coverImage}
+                      brand={item.brand}
+                      name={item.name}
+                      color={item.color}
+                      className="h-16 w-16 shrink-0 rounded-xl"
+                      sizes="64px"
+                      iconClassName="h-8 w-8"
+                    />
 
                     <div className="flex flex-1 flex-col">
                       <div className="flex items-start justify-between gap-2">
                         <Link
-                          href={`/shop/${item.categoryHref}/${item.slug}`}
+                          href={cartItemHref(item)}
                           onClick={() => setOpen(false)}
                           className="font-serif text-sm text-ink hover:underline"
                         >
