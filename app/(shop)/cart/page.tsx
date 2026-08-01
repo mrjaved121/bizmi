@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { Minus, Plus, X, ShoppingCart, Truck, ShieldCheck, Wallet } from "lucide-react";
 import { useCart, cartCount, cartSubtotalPkr, cartItemHref } from "@/lib/cart";
 import { formatPkr } from "@/lib/format";
@@ -52,15 +53,25 @@ export default function CartPage() {
                 <Link
                   href={cartItemHref(item)}
                   className={cn(
-                    "flex h-24 w-24 shrink-0 items-center justify-center rounded-2xl",
+                    "relative flex h-24 w-24 shrink-0 items-center justify-center overflow-hidden rounded-2xl",
                     COLOR_TO_SOFT_BG[item.color] ?? "bg-surface-2"
                   )}
                 >
-                  <BrandIcon
-                    brand={item.brand}
-                    className={cn("h-10 w-10", COLOR_TO_ICON_TEXT[item.color] ?? "text-ink-2")}
-                    strokeWidth={1.5}
-                  />
+                  {item.coverImage ? (
+                    <Image
+                      src={item.coverImage}
+                      alt={item.name}
+                      fill
+                      sizes="96px"
+                      className="object-cover"
+                    />
+                  ) : (
+                    <BrandIcon
+                      brand={item.brand}
+                      className={cn("h-10 w-10", COLOR_TO_ICON_TEXT[item.color] ?? "text-ink-2")}
+                      strokeWidth={1.5}
+                    />
+                  )}
                 </Link>
 
                 <div className="flex flex-1 flex-col justify-between">

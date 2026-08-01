@@ -25,6 +25,7 @@ interface ProductRow {
   age_max: number | null;
   is_bestseller: boolean;
   is_new: boolean;
+  cover_image: string | null;
   categories: { slug: string | null; name: string | null; color: string | null } | null;
 }
 
@@ -46,6 +47,7 @@ function toCardData(row: ProductRow): ProductCardData | null {
     ageMax: row.age_max ?? undefined,
     isBestseller: row.is_bestseller,
     isNew: row.is_new,
+    coverImage: row.cover_image ?? undefined,
   };
 }
 
@@ -57,7 +59,7 @@ export async function getProducts(
   let query = supabase
     .from("products")
     .select(
-      "slug, name, brand, price_pkr, compare_at_price_pkr, difficulty, age_min, age_max, is_bestseller, is_new, featured, created_at, categories!inner(slug, name, color)"
+      "slug, name, brand, price_pkr, compare_at_price_pkr, difficulty, age_min, age_max, is_bestseller, is_new, featured, created_at, cover_image, categories!inner(slug, name, color)"
     )
     .eq("is_active", true);
 
@@ -198,7 +200,6 @@ interface ProductDetailRow extends ProductRow {
   sku: string | null;
   short_description: string | null;
   long_description: string | null;
-  cover_image: string | null;
   gallery: string[] | null;
   specs: Record<string, string> | null;
   components: { name: string; qty: number; note?: string }[] | null;
@@ -216,7 +217,6 @@ function toDetailData(row: ProductDetailRow): ProductDetailData | null {
     sku: row.sku ?? undefined,
     shortDescription: row.short_description ?? undefined,
     longDescription: row.long_description ?? undefined,
-    coverImage: row.cover_image ?? undefined,
     gallery: row.gallery ?? [],
     specs: row.specs ?? {},
     components: row.components ?? [],
@@ -265,7 +265,7 @@ export async function searchProducts(searchQuery: string): Promise<ProductCardDa
   const { data, error } = await supabase
     .from("products")
     .select(
-      "slug, name, brand, price_pkr, compare_at_price_pkr, difficulty, age_min, age_max, is_bestseller, is_new, categories!inner(slug, name, color)"
+      "slug, name, brand, price_pkr, compare_at_price_pkr, difficulty, age_min, age_max, is_bestseller, is_new, cover_image, categories!inner(slug, name, color)"
     )
     .eq("is_active", true)
     .or(`name.ilike.%${safe}%,sku.ilike.%${safe}%,short_description.ilike.%${safe}%`)

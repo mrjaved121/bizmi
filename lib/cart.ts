@@ -8,6 +8,7 @@ export interface CartItem {
   categoryHref: string;
   color: DepartmentColor;
   brand?: string;
+  coverImage?: string;
   pricePkr: number;
   compareAtPricePkr?: number;
   quantity: number;

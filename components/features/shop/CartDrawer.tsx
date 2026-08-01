@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { Minus, Plus, ShoppingCart, X } from "lucide-react";
 import { useCart, cartCount, cartSubtotalPkr } from "@/lib/cart";
 import { formatPkr } from "@/lib/format";
@@ -64,15 +65,25 @@ export function CartDrawer() {
                   <li key={item.slug} className="flex gap-3 py-4">
                     <div
                       className={cn(
-                        "flex h-16 w-16 shrink-0 items-center justify-center rounded-xl",
+                        "relative flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden rounded-xl",
                         COLOR_TO_SOFT_BG[item.color] ?? "bg-surface-2"
                       )}
                     >
-                      <BrandIcon
-                        brand={item.brand}
-                        className={cn("h-8 w-8", COLOR_TO_ICON_TEXT[item.color] ?? "text-ink-2")}
-                        strokeWidth={1.5}
-                      />
+                      {item.coverImage ? (
+                        <Image
+                          src={item.coverImage}
+                          alt={item.name}
+                          fill
+                          sizes="64px"
+                          className="object-cover"
+                        />
+                      ) : (
+                        <BrandIcon
+                          brand={item.brand}
+                          className={cn("h-8 w-8", COLOR_TO_ICON_TEXT[item.color] ?? "text-ink-2")}
+                          strokeWidth={1.5}
+                        />
+                      )}
                     </div>
 
                     <div className="flex flex-1 flex-col">

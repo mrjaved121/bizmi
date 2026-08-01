@@ -16,13 +16,13 @@ export interface ProductCardData {
   ageMax?: number;
   isBestseller?: boolean;
   isNew?: boolean;
+  coverImage?: string;
 }
 
 export interface ProductDetailData extends ProductCardData {
   sku?: string;
   shortDescription?: string;
   longDescription?: string;
-  coverImage?: string;
   gallery: string[];
   specs: Record<string, string>;
   components: { name: string; qty: number; note?: string }[];

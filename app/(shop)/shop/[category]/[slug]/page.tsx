@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import Image from "next/image";
 import { Truck, PackageCheck } from "lucide-react";
 import {
   getProductDetail,
@@ -75,11 +76,22 @@ export default async function ProductDetailPage({
                 className="absolute -right-10 -top-10 h-48 w-48 rounded-full bg-white/30 blur-3xl"
                 aria-hidden
               />
-              <BrandIcon
-                brand={product.brand}
-                className={cn("h-40 w-40", COLOR_TO_ICON_TEXT[product.color] ?? "text-ink-2")}
-                strokeWidth={1.25}
-              />
+              {product.coverImage ? (
+                <Image
+                  src={product.coverImage}
+                  alt={product.name}
+                  fill
+                  sizes="(min-width: 1024px) 50vw, 100vw"
+                  priority
+                  className="object-cover"
+                />
+              ) : (
+                <BrandIcon
+                  brand={product.brand}
+                  className={cn("h-40 w-40", COLOR_TO_ICON_TEXT[product.color] ?? "text-ink-2")}
+                  strokeWidth={1.25}
+                />
+              )}
             </div>
           </Reveal>
 

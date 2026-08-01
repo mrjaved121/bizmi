@@ -22,6 +22,7 @@ export function ProductActions({ product }: { product: ProductDetailData }) {
         categoryHref: product.categoryHref,
         color: product.color,
         brand: product.brand,
+        coverImage: product.coverImage,
         pricePkr: product.pricePkr,
         compareAtPricePkr: product.compareAtPricePkr,
         maxQuantity: product.inventoryCount,
