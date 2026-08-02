@@ -20,10 +20,16 @@ const STATS = [
 ];
 
 const TEAM = [
-  { initials: "UW", name: "Usman Waris", role: "Founder", color: "bg-orange-soft text-orange" },
-  { initials: "MJ", name: "Mr Javed", role: "Website Full Stack AI Developer", color: "bg-slate-soft text-slate" },
-  { initials: "IT", name: "Iqra Tehmor", role: "Content Creator", color: "bg-purple-soft text-purple" },
-];
+  { initials: "UW", name: "Usman Waris", role: "Founder", color: "orange" },
+  { initials: "MJ", name: "Mr Javed", role: "Full-Stack Developer & AI Engineer", color: "blue" },
+  { initials: "IT", name: "Iqra Tehmor", role: "Content Strategist", color: "purple" },
+] as const;
+
+const TEAM_COLOR_STYLES: Record<(typeof TEAM)[number]["color"], { bar: string; ring: string; soft: string; text: string }> = {
+  orange: { bar: "bg-orange", ring: "ring-orange-soft", soft: "bg-orange-soft", text: "text-orange" },
+  blue: { bar: "bg-blue", ring: "ring-blue-soft", soft: "bg-blue-soft", text: "text-blue" },
+  purple: { bar: "bg-purple", ring: "ring-purple-soft", soft: "bg-purple-soft", text: "text-purple" },
+};
 
 const VALUES = [
   {
@@ -95,27 +101,37 @@ export default function AboutPage() {
       </section>
 
       <section className="bg-white py-16 sm:py-24">
-        <div className="mx-auto max-w-7xl px-6">
+        <div className="mx-auto max-w-7xl px-6 text-center">
           <Eyebrow>The team</Eyebrow>
           <h2 className="mt-4 text-[clamp(28px,4.5vw,44px)] font-serif tracking-[-0.02em] text-ink">
             Small team, hands-on everywhere.
           </h2>
-          <div className="mt-10 grid grid-cols-2 gap-5 sm:grid-cols-4">
-            {TEAM.map((member, i) => (
-              <Reveal key={member.name} delay={Math.min(i * 0.06, 0.24)}>
-                <div className="rounded-3xl border border-line p-6 text-center">
-                  <div
-                    className={`mx-auto flex h-16 w-16 items-center justify-center rounded-full font-serif text-lg ${member.color}`}
-                  >
-                    {member.initials}
+          <div className="mt-12 flex flex-wrap justify-center gap-6">
+            {TEAM.map((member, i) => {
+              const styles = TEAM_COLOR_STYLES[member.color];
+              return (
+                <Reveal
+                  key={member.name}
+                  delay={Math.min(i * 0.06, 0.24)}
+                  className="w-full max-w-xs sm:w-64"
+                >
+                  <div className="relative flex h-full flex-col items-center overflow-hidden rounded-3xl border border-line bg-white pb-8 pt-9 text-center shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
+                    <span className={`absolute inset-x-0 top-0 h-1.5 ${styles.bar}`} aria-hidden />
+                    <div
+                      className={`flex h-20 w-20 items-center justify-center rounded-full font-serif text-xl ring-4 ${styles.soft} ${styles.text} ${styles.ring}`}
+                    >
+                      {member.initials}
+                    </div>
+                    <p className="mt-5 font-serif text-lg text-ink">
+                      {member.name}
+                    </p>
+                    <p className="mt-1.5 font-mono text-xs uppercase tracking-wide text-ink-2">
+                      {member.role}
+                    </p>
                   </div>
-                  <p className="mt-4 font-serif text-lg text-ink">
-                    {member.name}
-                  </p>
-                  <p className="text-sm text-ink-2">{member.role}</p>
-                </div>
-              </Reveal>
-            ))}
+                </Reveal>
+              );
+            })}
           </div>
         </div>
       </section>

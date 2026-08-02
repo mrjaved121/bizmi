@@ -9,13 +9,13 @@ const LETTERS: { char: string; color: string }[] = [
   { char: "i", color: "var(--green)" },
 ];
 
-// logo-icon.png is 400x480 — height drives the box, width follows that ratio
-const ICON_ASPECT = 400 / 480;
+// logo-icon.png is 558x403 — height drives the box, width follows that ratio
+const ICON_ASPECT = 558 / 403;
 
 const SIZES = {
-  sm: { text: "text-xl", iconHeight: 28 },
-  md: { text: "text-2xl", iconHeight: 34 },
-  lg: { text: "text-4xl", iconHeight: 52 },
+  sm: { text: "text-xl", iconHeight: 34 },
+  md: { text: "text-2xl", iconHeight: 42 },
+  lg: { text: "text-4xl", iconHeight: 64 },
 } as const;
 
 export function BrandMark({
