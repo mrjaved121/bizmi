@@ -21,7 +21,13 @@ const STATS = [
 
 const TEAM = [
   { initials: "UW", name: "Usman Waris", role: "Founder", color: "orange" },
-  { initials: "MJ", name: "Mr Javed", role: "Full-Stack Developer & AI Engineer", color: "blue" },
+  {
+    initials: "MJ",
+    name: "Mr Javed",
+    role: "Full-Stack Developer & AI Engineer",
+    color: "blue",
+    website: "itsolutionnyc.com",
+  },
   { initials: "IT", name: "Iqra Tehmor", role: "Content Strategist", color: "purple" },
 ] as const;
 
@@ -128,6 +134,16 @@ export default function AboutPage() {
                     <p className="mt-1.5 font-mono text-xs uppercase tracking-wide text-ink-2">
                       {member.role}
                     </p>
+                    {"website" in member && member.website && (
+                      <a
+                        href={`https://${member.website}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className={`mt-2 text-sm transition-colors hover:underline ${styles.text}`}
+                      >
+                        {member.website}
+                      </a>
+                    )}
                   </div>
                 </Reveal>
               );
