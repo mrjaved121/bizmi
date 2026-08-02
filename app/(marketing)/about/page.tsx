@@ -21,11 +21,8 @@ const STATS = [
 
 const TEAM = [
   { initials: "UW", name: "Usman Waris", role: "Founder", color: "bg-orange-soft text-orange" },
-  { initials: "MR", name: "M. Raza", role: "Co-founder", color: "bg-blue-soft text-blue" },
   { initials: "MJ", name: "Mr Javed", role: "Website Full Stack AI Developer", color: "bg-slate-soft text-slate" },
   { initials: "IT", name: "Iqra Tehmor", role: "Content Creator", color: "bg-purple-soft text-purple" },
-  { initials: "SK", name: "Sana K.", role: "Curriculum Advisor", color: "bg-purple-soft text-purple" },
-  { initials: "TA", name: "Tariq A.", role: "Community Lead", color: "bg-green-soft text-green" },
 ];
 
 const VALUES = [
