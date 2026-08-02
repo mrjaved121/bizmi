@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { Sparkles, HandMetal, Unlock } from "lucide-react";
 import { PageHero } from "@/components/features/PageHero";
 import { StatRow } from "@/components/features/StatRow";
@@ -77,7 +78,16 @@ export default function AboutPage() {
 
       <section className="py-8 sm:py-12">
         <div className="mx-auto grid max-w-7xl gap-10 px-6 lg:grid-cols-2 lg:items-center">
-          <Reveal className="aspect-[4/3] rounded-3xl bg-orange-soft" />
+          <Reveal className="rounded-3xl overflow-hidden">
+            <Image
+              src="/images/Our-story-banner.png"
+              alt="Bizmi — Our story"
+              width={596}
+              height={447}
+              className="aspect-[4/3] w-full object-cover"
+              priority
+            />
+          </Reveal>
           <Reveal delay={0.1}>
             <Eyebrow>Our story</Eyebrow>
             <h2 className="mt-4 font-serif text-3xl text-ink">

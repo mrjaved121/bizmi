@@ -9,8 +9,8 @@ const LETTERS: { char: string; color: string }[] = [
   { char: "i", color: "var(--green)" },
 ];
 
-// logo-icon.png is 558x403 — height drives the box, width follows that ratio
-const ICON_ASPECT = 558 / 403;
+// logo-icon.png is 660x470 — height drives the box, width follows that ratio
+const ICON_ASPECT = 660 / 470;
 
 const SIZES = {
   sm: { text: "text-xl", iconHeight: 34 },
