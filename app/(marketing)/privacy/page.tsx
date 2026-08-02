@@ -63,7 +63,7 @@ export default function PrivacyPage() {
         <p>
           You can access, correct, or request deletion of your personal data
           at any time from your account settings, or by emailing
-          hello@bizmi.pk. School accounts should contact their assigned
+          bizmistore007@gmail.com. School accounts should contact their assigned
           Bizmi representative for institutional data requests.
         </p>
       </LegalSection>
@@ -80,7 +80,7 @@ export default function PrivacyPage() {
 
       <LegalSection title="Contact">
         <p>
-          Questions about this policy: hello@bizmi.pk, or Bizmi, Faisalabad,
+          Questions about this policy: bizmistore007@gmail.com, or Bizmi, Faisalabad,
           Punjab, Pakistan.
         </p>
       </LegalSection>

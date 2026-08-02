@@ -36,7 +36,7 @@ export async function submitContactForm(
     return { ok: false, error: "Something went wrong. Please try again." };
   }
 
-  // TODO(Resend): email sales at hello@bizmi.pk once RESEND_API_KEY is set.
+  // TODO(Resend): email sales at bizmistore007@gmail.com once RESEND_API_KEY is set.
   return { ok: true };
 }
 

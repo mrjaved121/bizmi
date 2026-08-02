@@ -87,7 +87,7 @@ export default function TermsPage() {
       </LegalSection>
 
       <LegalSection title="Contact">
-        <p>Questions: hello@bizmi.pk.</p>
+        <p>Questions: bizmistore007@gmail.com.</p>
       </LegalSection>
     </LegalArticle>
   );

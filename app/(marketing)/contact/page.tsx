@@ -37,9 +37,9 @@ const INFO_CARDS = [
   {
     icon: Mail,
     title: "Email",
-    lines: ["hello@bizmi.pk"],
+    lines: ["bizmistore007@gmail.com"],
     color: "text-purple",
-    href: "mailto:hello@bizmi.pk",
+    href: "mailto:bizmistore007@gmail.com",
     linkLabel: "Send an email",
   },
 ];

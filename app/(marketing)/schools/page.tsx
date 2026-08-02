@@ -115,7 +115,7 @@ export default function SchoolsPage() {
               variant="outline"
               className="rounded-full border-[1.5px] border-ink px-6 py-3.5 text-ink hover:bg-ink hover:text-white"
               nativeButton={false}
-              render={<a href="mailto:hello@bizmi.pk?subject=Brochure%20request" />}
+              render={<a href="mailto:bizmistore007@gmail.com?subject=Brochure%20request" />}
             >
               Download brochure
             </Button>

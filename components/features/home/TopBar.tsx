@@ -2,7 +2,7 @@ export function TopBar() {
   const items = [
     "Free shipping on orders over Rs 5,000",
     "Cash on delivery available",
-    "Call us: +92 300 1234567",
+    "Call us: +92 313 897 9696",
   ];
 
   return (

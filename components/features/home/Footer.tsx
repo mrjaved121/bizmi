@@ -41,8 +41,8 @@ export function Footer() {
             </h3>
             <ul className="mt-4 flex flex-col gap-2.5 text-sm text-white/70">
               <li>Faisalabad, Punjab, Pakistan</li>
-              <li>+92 300 1234567</li>
-              <li>hello@bizmi.pk</li>
+              <li>+92 313 897 9696</li>
+              <li>bizmistore007@gmail.com</li>
             </ul>
           </div>
         </div>

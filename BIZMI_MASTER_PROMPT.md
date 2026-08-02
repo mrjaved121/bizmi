@@ -431,7 +431,7 @@ Each spec below covers: purpose, layout, sections top-to-bottom, components, dat
      - Address card (Faisalabad HQ)
      - WhatsApp card (green, "Chat on WhatsApp" button opens wa.me link)
      - Phone card (+92 313 897 9696, tap to call)
-     - Email card (hello@bizmi.pk)
+     - Email card (bizmistore007@gmail.com)
      - Response time note ("We reply within 24 hours")
 4. Map embed (Google Maps iframe of Faisalabad location)
 5. FAQ accordion (5 common Qs — shipping, returns, bulk orders, digital delivery, school programs)

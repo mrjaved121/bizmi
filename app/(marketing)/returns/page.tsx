@@ -39,7 +39,7 @@ export default function ReturnsPage() {
 
       <LegalSection title="How to request a return">
         <ol className="list-decimal pl-5">
-          <li>Email hello@bizmi.pk or WhatsApp +92 313 897 9696 with your order number</li>
+          <li>Email bizmistore007@gmail.com or WhatsApp +92 313 897 9696 with your order number</li>
           <li>We&apos;ll confirm eligibility and arrange a courier pickup</li>
           <li>Once received and inspected, your refund is processed within 5-7 business days</li>
         </ol>
@@ -62,7 +62,7 @@ export default function ReturnsPage() {
       </LegalSection>
 
       <LegalSection title="Contact">
-        <p>hello@bizmi.pk · +92 313 897 9696</p>
+        <p>bizmistore007@gmail.com · +92 313 897 9696</p>
       </LegalSection>
     </LegalArticle>
   );
