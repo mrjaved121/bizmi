@@ -78,13 +78,12 @@ export default function AboutPage() {
 
       <section className="py-8 sm:py-12">
         <div className="mx-auto grid max-w-7xl gap-10 px-6 lg:grid-cols-2 lg:items-center">
-          <Reveal className="rounded-3xl overflow-hidden">
+          <Reveal className="relative aspect-[463/512] rounded-3xl overflow-hidden shadow-sm">
             <Image
               src="/images/Our-story-banner.png"
-              alt="Bizmi — Our story"
-              width={596}
-              height={447}
-              className="aspect-[4/3] w-full object-cover"
+              alt="A Bizmi student soldering a robotics kit"
+              fill
+              className="object-cover"
               priority
             />
           </Reveal>
