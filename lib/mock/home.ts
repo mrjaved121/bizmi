@@ -18,6 +18,7 @@ export const SCHOOL_NAMES = [
   "Froebel's",
   "Aitchison College",
   "Lahore Grammar School",
+  "Ignite School System",
 ];
 
 export const DEPARTMENTS: {
