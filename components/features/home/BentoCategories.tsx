@@ -2,6 +2,7 @@ import { Eyebrow } from "@/components/features/Eyebrow";
 import { DepartmentCard } from "@/components/features/DepartmentCard";
 import { Reveal } from "@/components/features/Reveal";
 import { DEPARTMENTS } from "@/lib/mock/home";
+import { cn } from "@/lib/utils";
 
 export function BentoCategories() {
   return (
@@ -19,7 +20,10 @@ export function BentoCategories() {
             <Reveal
               key={dept.href}
               delay={Math.min(i * 0.06, 0.3)}
-              className={dept.featured ? "lg:col-span-2" : undefined}
+              className={cn(
+                dept.featured && "lg:col-span-2",
+                dept.fullWidth && "sm:col-span-2 lg:col-span-3"
+              )}
             >
               <DepartmentCard
                 href={dept.href}
@@ -28,6 +32,7 @@ export function BentoCategories() {
                 subtitle={dept.subtitle}
                 count={dept.count}
                 image={dept.image}
+                banner={dept.fullWidth}
                 className="h-full"
               />
             </Reveal>
