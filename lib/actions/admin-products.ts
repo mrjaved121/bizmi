@@ -16,6 +16,7 @@ const DIGITAL_INVENTORY_SENTINEL = 999_999;
 
 const baseSchema = z.object({
   name: z.string().min(2, "Enter a product name"),
+  nameUr: z.string().optional(),
   slug: z
     .string()
     .min(2, "Enter a slug")
@@ -24,14 +25,26 @@ const baseSchema = z.object({
   categoryId: z.string().uuid().optional().or(z.literal("")),
   brand: z.string().optional(),
   shortDescription: z.string().optional(),
+  shortDescriptionUr: z.string().optional(),
+  longDescription: z.string().optional(),
+  longDescriptionUr: z.string().optional(),
   pricePkr: z.number().min(0, "Enter a price"),
   compareAtPricePkr: z.number().min(0).optional(),
+  costPkr: z.number().min(0).optional(),
+  weightGrams: z.number().min(0).optional(),
   inventoryCount: z.number().min(0, "Enter a stock count"),
+  lowStockThreshold: z.number().min(0).optional(),
+  ageMin: z.number().min(0).optional(),
+  ageMax: z.number().min(0).optional(),
+  gradeTags: z.array(z.string()).optional(),
   difficulty: z.string().optional(),
   featured: z.boolean(),
   isBestseller: z.boolean(),
   isNew: z.boolean(),
   isActive: z.boolean(),
+  metaTitle: z.string().optional(),
+  metaDescription: z.string().optional(),
+  ogImage: z.string().optional(),
 });
 
 const createSchema = baseSchema.extend({
@@ -46,14 +59,27 @@ function toRow(data: AdminProductInput, productType: "physical" | "digital") {
   const isDigital = productType === "digital";
   return {
     name: data.name,
+    name_ur: data.nameUr || null,
     slug: data.slug,
     sku: data.sku || null,
     category_id: data.categoryId || null,
     brand: data.brand || null,
     short_description: data.shortDescription || null,
+    short_description_ur: data.shortDescriptionUr || null,
+    long_description: data.longDescription || null,
+    long_description_ur: data.longDescriptionUr || null,
     price_pkr: data.pricePkr,
     compare_at_price_pkr: data.compareAtPricePkr || null,
+    cost_pkr: data.costPkr ?? null,
+    weight_grams: data.weightGrams ?? null,
     inventory_count: isDigital ? DIGITAL_INVENTORY_SENTINEL : data.inventoryCount,
+    // unlike the other optional numeric columns, low_stock_threshold's
+    // generated type is non-nullable (it has a DB default of 5) — omit it
+    // entirely when unset instead of writing null
+    low_stock_threshold: data.lowStockThreshold ?? undefined,
+    age_min: data.ageMin ?? null,
+    age_max: data.ageMax ?? null,
+    grade_tags: data.gradeTags?.length ? data.gradeTags : null,
     difficulty: isDigital
       ? null
       : DIFFICULTIES.includes(data.difficulty as Difficulty)
@@ -63,6 +89,9 @@ function toRow(data: AdminProductInput, productType: "physical" | "digital") {
     is_bestseller: data.isBestseller,
     is_new: data.isNew,
     is_active: data.isActive,
+    meta_title: data.metaTitle || null,
+    meta_description: data.metaDescription || null,
+    og_image: data.ogImage || null,
   };
 }
 

@@ -4,8 +4,10 @@ import { notFound } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
 import { getAdminProductDetail, getAdminCategoryOptions } from "@/lib/data/admin-products";
 import { getDigitalFilesForProduct } from "@/lib/data/admin-digital";
+import { getAdminProductImages } from "@/lib/data/admin-product-images";
 import { ProductForm } from "@/components/features/admin/ProductForm";
 import { DigitalFilesManager } from "@/components/features/admin/DigitalFilesManager";
+import { ProductImagesManager } from "@/components/features/admin/ProductImagesManager";
 
 export const metadata: Metadata = {
   title: "Edit product | Bizmi Admin",
@@ -25,7 +27,10 @@ export default async function EditProductPage({
   }
 
   const isDigital = product.productType === "digital";
-  const digitalFiles = isDigital ? await getDigitalFilesForProduct(id) : [];
+  const [digitalFiles, images] = await Promise.all([
+    isDigital ? getDigitalFilesForProduct(id) : Promise.resolve([]),
+    getAdminProductImages(id),
+  ]);
 
   return (
     <div>
@@ -43,22 +48,37 @@ export default async function EditProductPage({
             defaultValues={{
               productType: product.productType === "digital" ? "digital" : "physical",
               name: product.name,
+              nameUr: product.nameUr ?? "",
               slug: product.slug,
               sku: product.sku ?? "",
               categoryId: product.categoryId ?? "",
               brand: product.brand ?? "",
               shortDescription: product.shortDescription ?? "",
+              shortDescriptionUr: product.shortDescriptionUr ?? "",
+              longDescription: product.longDescription ?? "",
+              longDescriptionUr: product.longDescriptionUr ?? "",
               pricePkr: product.pricePkr,
               compareAtPricePkr: product.compareAtPricePkr ?? undefined,
+              costPkr: product.costPkr ?? undefined,
+              weightGrams: product.weightGrams ?? undefined,
               inventoryCount: product.inventoryCount,
+              lowStockThreshold: product.lowStockThreshold ?? undefined,
+              ageMin: product.ageMin ?? undefined,
+              ageMax: product.ageMax ?? undefined,
+              gradeTags: product.gradeTags,
               difficulty: product.difficulty ?? "",
               featured: product.featured,
               isBestseller: product.isBestseller,
               isNew: product.isNew,
               isActive: product.isActive,
+              metaTitle: product.metaTitle ?? "",
+              metaDescription: product.metaDescription ?? "",
+              ogImage: product.ogImage ?? "",
             }}
           />
         </div>
+
+        <ProductImagesManager productId={product.id} images={images} />
 
         {isDigital && <DigitalFilesManager productId={product.id} files={digitalFiles} />}
       </div>
