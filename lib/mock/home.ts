@@ -9,18 +9,6 @@ export const NAV_LINKS = [
   { label: "For schools", href: "/schools" },
 ];
 
-export const SCHOOL_NAMES = [
-  "Beaconhouse",
-  "LGS",
-  "The City School",
-  "Roots Millennium",
-  "Bloomfield Hall",
-  "Froebel's",
-  "Aitchison College",
-  "Lahore Grammar School",
-  "Ignite School System",
-];
-
 export const DEPARTMENTS: {
   href: string;
   color: DepartmentColor;

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Hero } from "@/components/features/home/Hero";
-import { SchoolsMarquee } from "@/components/features/home/SchoolsMarquee";
+import { CategoriesMarquee } from "@/components/features/home/CategoriesMarquee";
 import { BentoCategories } from "@/components/features/home/BentoCategories";
 import { FeaturedDevBoards } from "@/components/features/home/FeaturedDevBoards";
 import { SensorsGrid } from "@/components/features/home/SensorsGrid";
@@ -28,7 +28,7 @@ export default function HomePage() {
   return (
     <>
       <Hero />
-      <SchoolsMarquee />
+      <CategoriesMarquee />
       <BentoCategories />
       <FeaturedDevBoards />
       <SensorsGrid />

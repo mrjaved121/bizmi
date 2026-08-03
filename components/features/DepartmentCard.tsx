@@ -17,7 +17,7 @@ import {
 import { ArrowBubble } from "@/components/features/ArrowBubble";
 import { cn } from "@/lib/utils";
 
-const COLOR_STYLES = {
+export const COLOR_STYLES = {
   orange: "bg-orange-soft",
   blue: "bg-blue-soft",
   red: "bg-red-soft",
@@ -27,7 +27,7 @@ const COLOR_STYLES = {
   pink: "bg-pink-soft",
 } as const;
 
-const COLOR_TO_ICON_TEXT = {
+export const COLOR_TO_ICON_TEXT = {
   orange: "text-orange",
   blue: "text-blue",
   red: "text-red",
@@ -39,7 +39,7 @@ const COLOR_TO_ICON_TEXT = {
 
 export type DepartmentColor = keyof typeof COLOR_STYLES;
 
-const TITLE_ICON: Record<string, LucideIcon> = {
+export const TITLE_ICON: Record<string, LucideIcon> = {
   "Robotics kits": Bot,
   Arduino: Cpu,
   "Raspberry Pi": CircuitBoard,
