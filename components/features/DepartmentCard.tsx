@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import {
   Bot,
   Cpu,
@@ -58,6 +59,7 @@ export function DepartmentCard({
   title,
   subtitle,
   count,
+  image,
   className,
 }: {
   href: string;
@@ -65,6 +67,7 @@ export function DepartmentCard({
   title: string;
   subtitle: string;
   count?: number;
+  image?: string;
   className?: string;
 }) {
   const Icon = TITLE_ICON[title] ?? Bot;
@@ -78,26 +81,53 @@ export function DepartmentCard({
         className
       )}
     >
-      <Icon
-        className={cn(
-          "pointer-events-none absolute -right-4 -bottom-4 h-28 w-28 opacity-[0.14] transition-transform duration-300 group-hover:scale-110 group-hover:rotate-6",
-          COLOR_TO_ICON_TEXT[color]
-        )}
-        strokeWidth={1.25}
-        aria-hidden
-      />
+      {image ? (
+        <>
+          <Image
+            src={image}
+            alt=""
+            fill
+            sizes="(min-width: 1024px) 33vw, 50vw"
+            className="object-cover transition-transform duration-300 group-hover:scale-105"
+          />
+          <div
+            className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/15 to-transparent"
+            aria-hidden
+          />
+        </>
+      ) : (
+        <Icon
+          className={cn(
+            "pointer-events-none absolute -right-4 -bottom-4 h-28 w-28 opacity-[0.14] transition-transform duration-300 group-hover:scale-110 group-hover:rotate-6",
+            COLOR_TO_ICON_TEXT[color]
+          )}
+          strokeWidth={1.25}
+          aria-hidden
+        />
+      )}
 
-      <div className="flex items-start justify-between">
+      <div className="relative flex items-start justify-between">
         {typeof count === "number" && (
-          <span className="font-mono text-xs uppercase tracking-wide text-ink-2">
+          <span
+            className={cn(
+              "font-mono text-xs uppercase tracking-wide",
+              image
+                ? "rounded-full bg-white/90 px-3 py-1 text-ink shadow-sm backdrop-blur-sm"
+                : "text-ink-2"
+            )}
+          >
             {count} products
           </span>
         )}
         <ArrowBubble className="ml-auto" />
       </div>
-      <div>
-        <h3 className="font-serif text-2xl text-ink">{title}</h3>
-        <p className="mt-1 text-sm text-ink-2">{subtitle}</p>
+      <div className="relative">
+        <h3 className={cn("font-serif text-2xl", image ? "text-white" : "text-ink")}>
+          {title}
+        </h3>
+        <p className={cn("mt-1 text-sm", image ? "text-white/80" : "text-ink-2")}>
+          {subtitle}
+        </p>
       </div>
     </Link>
   );

@@ -28,6 +28,7 @@ export const DEPARTMENTS: {
   subtitle: string;
   count: number;
   featured?: boolean;
+  image?: string;
 }[] = [
   {
     href: "/shop/robotics-kits",
@@ -36,6 +37,7 @@ export const DEPARTMENTS: {
     subtitle: "Complete beginner-to-advanced build kits",
     count: 18,
     featured: true,
+    image: "/images/products/bizmi-robotics-electronics-kit.jpg",
   },
   {
     href: "/shop/arduino",
@@ -43,6 +45,7 @@ export const DEPARTMENTS: {
     title: "Arduino",
     subtitle: "UNO, Nano, Mega, MKR series",
     count: 22,
+    image: "/images/products/arduino-uno-r3.jpg",
   },
   {
     href: "/shop/raspberry-pi",
@@ -50,6 +53,7 @@ export const DEPARTMENTS: {
     title: "Raspberry Pi",
     subtitle: "Pi 5, Pi 4, Zero, Pico",
     count: 15,
+    image: "/images/products/raspberry-pi-5-8gb.jpg",
   },
   {
     href: "/shop/stm32",
@@ -57,6 +61,7 @@ export const DEPARTMENTS: {
     title: "STM32",
     subtitle: "Blue Pill, Nucleo, Discovery",
     count: 11,
+    image: "/images/products/stm32-blue-pill.jpg",
   },
   {
     href: "/shop/sensors",
@@ -64,6 +69,7 @@ export const DEPARTMENTS: {
     title: "Sensors & shields",
     subtitle: "Displays, motion, comms, prototyping",
     count: 64,
+    image: "/images/products/hc-sr04-ultrasonic-sensor.jpg",
   },
   {
     href: "/digital",

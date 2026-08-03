@@ -27,6 +27,7 @@ export function BentoCategories() {
                 title={dept.title}
                 subtitle={dept.subtitle}
                 count={dept.count}
+                image={dept.image}
                 className="h-full"
               />
             </Reveal>
