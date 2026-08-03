@@ -28,6 +28,7 @@ export const DEPARTMENTS: {
   subtitle: string;
   count: number;
   featured?: boolean;
+  fullWidth?: boolean;
   image?: string;
 }[] = [
   {
@@ -77,6 +78,7 @@ export const DEPARTMENTS: {
     title: "Digital projects",
     subtitle: "Downloadable project packs",
     count: 4,
+    fullWidth: true,
   },
 ];
 
