@@ -5,6 +5,7 @@ import { getMyDownloads } from "@/lib/data/account";
 
 export const metadata: Metadata = {
   title: "Your downloads | Bizmi",
+  robots: { index: false },
 };
 
 export default async function AccountDownloadsPage() {

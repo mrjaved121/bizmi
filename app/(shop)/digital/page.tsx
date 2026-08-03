@@ -23,7 +23,33 @@ export default async function DigitalCatalogPage() {
         </p>
 
         {products.length === 0 ? (
-          <p className="mt-10 text-ink-2">No digital packs available yet — check back soon.</p>
+          <div className="mt-10 max-w-2xl rounded-3xl border border-line bg-white p-8">
+            <h2 className="font-serif text-2xl text-ink">
+              Digital project packs are on the way.
+            </h2>
+            <p className="mt-3 text-ink-2 leading-relaxed">
+              We&apos;re preparing downloadable project packs — source code,
+              wiring diagrams, and video walkthroughs — for Arduino,
+              Raspberry Pi, and STM32 builds, so you can start a project
+              tonight without waiting on a courier. Check back soon, or
+              reach out below and we&apos;ll email you the moment they go
+              live.
+            </p>
+            <div className="mt-6 flex flex-wrap gap-3">
+              <Link
+                href="/contact"
+                className="rounded-full bg-orange px-5 py-2.5 text-sm font-medium text-white hover:bg-orange/90"
+              >
+                Get notified when packs launch
+              </Link>
+              <Link
+                href="/shop"
+                className="rounded-full border border-line px-5 py-2.5 text-sm font-medium text-ink hover:border-ink"
+              >
+                Browse kits &amp; dev boards
+              </Link>
+            </div>
+          </div>
         ) : (
           <div className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {products.map((product) => (

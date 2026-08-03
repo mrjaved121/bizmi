@@ -3,6 +3,7 @@ import { JoinClassroomForm } from "@/components/features/auth/JoinClassroomForm"
 
 export const metadata: Metadata = {
   title: "Join a classroom | Bizmi",
+  robots: { index: false },
 };
 
 export default function JoinClassroomPage() {

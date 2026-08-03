@@ -23,7 +23,33 @@ export default async function CoursesCatalogPage() {
         </p>
 
         {courses.length === 0 ? (
-          <p className="mt-10 text-ink-2">No courses published yet — check back soon.</p>
+          <div className="mt-10 max-w-2xl rounded-3xl border border-line bg-white p-8">
+            <h2 className="font-serif text-2xl text-ink">
+              Our first courses are in development.
+            </h2>
+            <p className="mt-3 text-ink-2 leading-relaxed">
+              We&apos;re building structured, instructor-led and self-paced
+              courses covering Arduino programming, Raspberry Pi projects,
+              and STM32 embedded systems — the same curriculum we teach in
+              partner schools, adapted for individual learners. Check back
+              soon, or reach out below and we&apos;ll email you the moment
+              enrollment opens.
+            </p>
+            <div className="mt-6 flex flex-wrap gap-3">
+              <Link
+                href="/contact"
+                className="rounded-full bg-orange px-5 py-2.5 text-sm font-medium text-white hover:bg-orange/90"
+              >
+                Get notified when courses launch
+              </Link>
+              <Link
+                href="/shop"
+                className="rounded-full border border-line px-5 py-2.5 text-sm font-medium text-ink hover:border-ink"
+              >
+                Browse kits &amp; dev boards
+              </Link>
+            </div>
+          </div>
         ) : (
           <div className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {courses.map((course) => (

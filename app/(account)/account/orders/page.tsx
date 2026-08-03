@@ -8,6 +8,7 @@ import { cn } from "@/lib/utils";
 
 export const metadata: Metadata = {
   title: "Your orders | Bizmi",
+  robots: { index: false },
 };
 
 export default async function AccountOrdersPage() {

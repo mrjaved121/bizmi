@@ -5,6 +5,7 @@ import { getMyCourses } from "@/lib/data/courses";
 
 export const metadata: Metadata = {
   title: "Your courses | Bizmi",
+  robots: { index: false },
 };
 
 export default async function AccountCoursesPage() {

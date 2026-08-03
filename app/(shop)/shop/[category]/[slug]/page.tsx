@@ -51,8 +51,34 @@ export default async function ProductDetailPage({
 
   const related = await getRelatedProducts(categorySlug, slug, 4);
 
+  const productJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: product.name,
+    description: product.shortDescription ?? product.longDescription ?? undefined,
+    sku: product.sku,
+    brand: product.brand ? { "@type": "Brand", name: product.brand } : undefined,
+    image: product.coverImage
+      ? [`https://bizmi.pk${product.coverImage}`]
+      : undefined,
+    offers: {
+      "@type": "Offer",
+      url: `https://bizmi.pk/shop/${product.categoryHref}/${product.slug}`,
+      priceCurrency: "PKR",
+      price: product.pricePkr,
+      availability:
+        product.inventoryCount > 0
+          ? "https://schema.org/InStock"
+          : "https://schema.org/OutOfStock",
+    },
+  };
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(productJsonLd) }}
+      />
       <Breadcrumb
         items={[
           { label: "Shop", href: "/shop" },

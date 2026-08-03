@@ -32,7 +32,7 @@ export function DigitalProjectsBlock() {
           {DIGITAL_PACKS.map((pack, i) => (
             <Reveal key={pack.slug} delay={i * 0.08}>
               <Link
-                href={`/digital/${pack.slug}`}
+                href="/digital"
                 className={`group flex h-full flex-col justify-between rounded-3xl border bg-white/5 p-6 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-yellow ${COLOR_TO_BORDER[pack.color]}`}
               >
                 <div>
@@ -58,7 +58,7 @@ export function DigitalProjectsBlock() {
 
         <Reveal delay={0.24}>
           <Link
-            href="/digital/bizmi-mega-bundle"
+            href="/digital"
             className="mt-5 flex flex-col items-start justify-between gap-4 rounded-3xl bg-yellow p-6 text-ink transition-transform duration-300 hover:-translate-y-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white sm:flex-row sm:items-center"
           >
             <div className="flex items-center gap-4">

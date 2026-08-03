@@ -4,6 +4,7 @@ import { SettingsForm } from "@/components/features/auth/SettingsForm";
 
 export const metadata: Metadata = {
   title: "Settings | Bizmi",
+  robots: { index: false },
 };
 
 export default async function AccountSettingsPage() {
