@@ -57,20 +57,6 @@ export function Footer() {
       <div className="border-t border-white/10 px-6 py-6">
         <p className="mx-auto flex max-w-7xl flex-wrap items-center justify-center gap-x-2 gap-y-1 text-center font-mono text-xs uppercase tracking-wide text-white/40">
           <span>© {new Date().getFullYear()} Bizmi. All rights reserved.</span>
-          <span aria-hidden className="text-white/20">
-            ·
-          </span>
-          <span>
-            Developed by{" "}
-            <a
-              href="https://itsolutionnyc.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-white/60 transition-colors hover:text-white"
-            >
-              ITSolutionNYC.com
-            </a>
-          </span>
         </p>
       </div>
     </footer>
