@@ -21,15 +21,14 @@ const STATS = [
 ];
 
 const TEAM = [
-  { initials: "UW", name: "Usman Waris", role: "Founder", color: "orange" },
+  { initials: "UW", name: "Usman Waris", role: "Founder & CEO", color: "orange" },
   {
     initials: "MJ",
     name: "Mr Javed",
-    role: "Full-Stack Developer & AI Engineer",
+    role: "Technical Head",
     color: "blue",
-    website: "itsolutionnyc.com",
   },
-  { initials: "IT", name: "Iqra Tehmor", role: "Content Strategist", color: "purple" },
+  { initials: "IF", name: "Iqra Fatima", role: "Creative Head", color: "purple" },
 ] as const;
 
 const TEAM_COLOR_STYLES: Record<(typeof TEAM)[number]["color"], { bar: string; ring: string; soft: string; text: string }> = {
@@ -143,16 +142,6 @@ export default function AboutPage() {
                     <p className="mt-1.5 font-mono text-xs uppercase tracking-wide text-ink-2">
                       {member.role}
                     </p>
-                    {"website" in member && member.website && (
-                      <a
-                        href={`https://${member.website}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className={`mt-2 text-sm transition-colors hover:underline ${styles.text}`}
-                      >
-                        {member.website}
-                      </a>
-                    )}
                   </div>
                 </Reveal>
               );
