@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Fraunces, Inter, JetBrains_Mono } from "next/font/google";
 import { Toaster } from "@/components/ui/sonner";
+import { FloatingWhatsApp } from "@/components/features/FloatingWhatsApp";
 import "./globals.css";
 
 const fraunces = Fraunces({
@@ -82,6 +83,7 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(ORGANIZATION_JSON_LD) }}
         />
         {children}
+        <FloatingWhatsApp />
         <Toaster />
       </body>
     </html>
